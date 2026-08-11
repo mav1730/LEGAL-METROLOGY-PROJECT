@@ -1,0 +1,349 @@
+/* DemoMart — Amazon-inspired demo storefront (educational clone) */
+:root {
+  --nav: #131921;
+  --nav-mid: #232f3e;
+  --orange: #febd69;
+  --orange-btn: #ffd814;
+  --orange-btn-h: #f7ca00;
+  --buy: #ffa41c;
+  --link: #007185;
+  --price: #b12704;
+  --star: #ffa41c;
+  --border: #d5d9d9;
+  --bg: #eaeded;
+  --white: #fff;
+  --text: #0f1111;
+  --muted: #565959;
+  --green: #007600;
+  --a-yellow: #f3a847;
+  font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.4;
+}
+a { color: var(--link); text-decoration: none; }
+a:hover { color: #c7511f; text-decoration: underline; }
+
+/* Top banner */
+.demo-banner {
+  background: #232f3e;
+  color: #febd69;
+  text-align: center;
+  font-size: 12px;
+  padding: 6px 12px;
+  border-bottom: 2px solid #febd69;
+}
+.demo-banner strong { color: #fff; }
+
+/* Nav */
+.nav {
+  background: var(--nav);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  flex-wrap: wrap;
+}
+.nav .logo {
+  color: #fff;
+  font-weight: 800;
+  font-size: 22px;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  padding: 4px 8px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+}
+.nav .logo:hover { border-color: #fff; text-decoration: none; color: #fff; }
+.nav .logo span { color: var(--orange); }
+.nav .loc { font-size: 12px; line-height: 1.15; min-width: 90px; }
+.nav .loc b { font-size: 14px; display: block; }
+.search {
+  flex: 1;
+  display: flex;
+  min-width: 220px;
+  max-width: 720px;
+}
+.search select {
+  border: none;
+  background: #e6e6e6;
+  border-radius: 4px 0 0 4px;
+  padding: 0 8px;
+  font-size: 12px;
+}
+.search input {
+  flex: 1;
+  border: none;
+  padding: 10px 12px;
+  font-size: 15px;
+}
+.search button {
+  background: var(--orange);
+  border: none;
+  padding: 0 14px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  font-size: 16px;
+}
+.nav-right {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-size: 12px;
+}
+.nav-right .line2 { font-size: 14px; font-weight: 700; display: block; }
+.nav-right a { color: #fff; text-decoration: none; }
+.nav-right a:hover { text-decoration: none; color: var(--orange); }
+
+.subnav {
+  background: var(--nav-mid);
+  color: #fff;
+  display: flex;
+  gap: 16px;
+  padding: 8px 14px;
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+.subnav a { color: #fff; text-decoration: none; }
+.subnav a:hover { text-decoration: underline; color: #fff; }
+
+/* Layout */
+.page { max-width: 1480px; margin: 0 auto; padding: 14px; }
+.breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+.breadcrumb a { color: var(--link); }
+
+/* Home hero */
+.hero {
+  background: linear-gradient(180deg, #fff 0%, var(--bg) 100%);
+  border-radius: 4px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+}
+.hero h1 { margin: 0 0 6px; font-size: 26px; }
+.hero p { margin: 0; color: var(--muted); max-width: 70ch; }
+
+/* Product grid */
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 8px 0 12px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+.card {
+  background: var(--white);
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.15s;
+}
+.card:hover { box-shadow: 0 4px 14px rgba(15, 17, 17, 0.12); }
+.card img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  background: #fff;
+  margin-bottom: 10px;
+}
+.card .title {
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.3;
+  max-height: 2.6em;
+  overflow: hidden;
+  text-decoration: none;
+  font-weight: 500;
+}
+.card .title:hover { color: #c7511f; }
+.stars { color: var(--star); font-size: 13px; margin: 4px 0; }
+.stars span { color: var(--muted); margin-left: 4px; }
+.price-row { margin-top: auto; padding-top: 8px; }
+.price-row .symbol { font-size: 12px; vertical-align: super; color: var(--price); }
+.price-row .amount { font-size: 22px; font-weight: 500; color: var(--price); }
+.mrp-strike { color: var(--muted); font-size: 12px; text-decoration: line-through; margin-left: 6px; }
+.prime { color: #00a8e1; font-weight: 700; font-size: 12px; }
+
+/* Product detail */
+.pdp {
+  display: grid;
+  grid-template-columns: 80px 1fr 340px;
+  gap: 18px;
+  background: transparent;
+  align-items: start;
+}
+@media (max-width: 980px) {
+  .pdp { grid-template-columns: 1fr; }
+  .thumbs { flex-direction: row; }
+}
+.thumbs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.thumbs img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  padding: 4px;
+}
+.thumbs img.active,
+.thumbs img:hover { border-color: #e77600; box-shadow: 0 0 0 1px #e77600; }
+.main-img-wrap {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px;
+  text-align: center;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.main-img-wrap img {
+  max-width: 100%;
+  max-height: 480px;
+  object-fit: contain;
+}
+.pdp-info {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.pdp-info h1 {
+  font-size: 22px;
+  font-weight: 400;
+  margin: 0 0 6px;
+  line-height: 1.3;
+}
+.brand-line { font-size: 13px; margin-bottom: 6px; }
+.rating-line { font-size: 13px; margin-bottom: 10px; border-bottom: 1px solid #e7e7e7; padding-bottom: 10px; }
+.price-block { margin: 10px 0; }
+.price-block .big {
+  font-size: 28px;
+  color: var(--text);
+  font-weight: 400;
+}
+.price-block .big .rupee { font-size: 14px; vertical-align: super; }
+.tax-note { font-size: 12px; color: var(--muted); }
+.deal { color: var(--price); font-weight: 700; font-size: 14px; }
+.about ul { margin: 6px 0 0 18px; padding: 0; }
+.about li { margin-bottom: 4px; }
+
+.buybox {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+}
+.buybox .price { font-size: 24px; margin-bottom: 6px; }
+.buybox .stock { color: var(--green); font-size: 16px; font-weight: 500; margin: 8px 0; }
+.buybox .ship { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+.btn {
+  display: block;
+  width: 100%;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.btn-cart { background: var(--orange-btn); border: 1px solid #fcd200; }
+.btn-cart:hover { background: var(--orange-btn-h); }
+.btn-buy { background: var(--buy); border: 1px solid #ff8f00; }
+.secure { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+/* Specs table — Amazon style product details */
+.details-panel {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-top: 18px;
+  padding: 16px 20px;
+}
+.details-panel h2 {
+  font-size: 18px;
+  margin: 0 0 12px;
+  border-bottom: 1px solid #e7e7e7;
+  padding-bottom: 8px;
+}
+.details-panel h3 {
+  font-size: 15px;
+  margin: 16px 0 8px;
+}
+table.prod-details {
+  width: 100%;
+  max-width: 720px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+table.prod-details th {
+  text-align: left;
+  width: 38%;
+  background: #f0f2f2;
+  padding: 10px 12px;
+  border: 1px solid #e7e7e7;
+  font-weight: 600;
+  color: #0f1111;
+  vertical-align: top;
+}
+table.prod-details td {
+  padding: 10px 12px;
+  border: 1px solid #e7e7e7;
+  vertical-align: top;
+}
+
+/* Footer */
+.footer {
+  background: var(--nav-mid);
+  color: #ddd;
+  margin-top: 40px;
+  padding: 28px 16px 40px;
+  font-size: 12px;
+  text-align: center;
+}
+.footer a { color: #ddd; margin: 0 10px; }
+.footer .logo-f {
+  color: #fff;
+  font-weight: 800;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.footer .logo-f span { color: var(--orange); }
+
+.scan-hint {
+  background: #fff8e7;
+  border: 1px solid #f0c14b;
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin: 12px 0;
+  font-size: 12px;
+  color: #111;
+}
+.scan-hint code {
+  background: #fff;
+  padding: 2px 6px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-size: 12px;
+  word-break: break-all;
+}

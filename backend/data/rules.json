@@ -1,0 +1,65 @@
+{
+  "version": "1.0.0-prototype",
+  "name": "Legal Metrology Prototype Rule Set (India-oriented examples)",
+  "disclaimer": "Prototype rules only. Not a complete Legal Metrology rulebook. Team must verify against authoritative requirements they choose to implement.",
+  "rules": [
+    {
+      "id": "REQ_MRP",
+      "field": "mrp",
+      "type": "presence",
+      "required": true,
+      "severity": "high",
+      "explanation": "Maximum Retail Price (MRP) was not detected in available webpage text or packaging OCR."
+    },
+    {
+      "id": "REQ_NET_QTY",
+      "field": "net_quantity",
+      "type": "presence",
+      "required": true,
+      "severity": "high",
+      "explanation": "Net quantity was not detected in available webpage text or packaging OCR."
+    },
+    {
+      "id": "REQ_MANUFACTURER",
+      "field": "manufacturer",
+      "type": "presence",
+      "required": true,
+      "severity": "high",
+      "explanation": "Manufacturer / packer / marketer details were not detected in available sources."
+    },
+    {
+      "id": "REQ_COUNTRY",
+      "field": "country_of_origin",
+      "type": "presence",
+      "required": true,
+      "severity": "high",
+      "explanation": "Country of origin was not detected in available webpage text or packaging OCR."
+    },
+    {
+      "id": "REQ_MFG_OR_EXP",
+      "field": "_mfg_or_exp",
+      "type": "any_of",
+      "required": true,
+      "fields": ["manufacturing_date", "expiry_date"],
+      "severity": "medium",
+      "explanation": "Neither manufacturing/packing date nor expiry/best-before information was detected."
+    },
+    {
+      "id": "CONF_LOW_MRP",
+      "field": "mrp",
+      "type": "confidence",
+      "min_confidence": 0.8,
+      "required": false,
+      "severity": "review",
+      "explanation": "MRP was detected but extraction confidence is low — human verification recommended."
+    },
+    {
+      "id": "AMB_ANY",
+      "field": "*",
+      "type": "ambiguous",
+      "required": false,
+      "severity": "review",
+      "explanation": "Conflicting values detected across sources for one or more fields — human review required."
+    }
+  ]
+}
