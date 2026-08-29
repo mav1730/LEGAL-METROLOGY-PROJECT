@@ -1,13 +1,31 @@
+import { History } from "lucide-react";
+import { motion } from "framer-motion";
+
 export default function ProductList({ products, selectedId, onSelect }) {
   return (
     <div className="panel" style={{ marginTop: "1rem" }}>
-      <h2>Recent scans</h2>
+      <h2>
+        <History size={20} style={{ marginRight: "0.5rem" }} />
+        Recent Scans
+      </h2>
       {!products?.length ? (
         <p className="muted">No scans yet. Run a demo sample to get started.</p>
       ) : (
-        <ul className="product-list">
+        <motion.ul 
+          className="product-list"
+          initial="hidden"
+          animate="show"
+          variants={{
+            hidden: { opacity: 0 },
+            show: {
+              opacity: 1,
+              transition: { staggerChildren: 0.05 }
+            }
+          }}
+        >
           {products.map((p) => (
-            <li
+            <motion.li
+              variants={{ hidden: { opacity: 0, x: -10 }, show: { opacity: 1, x: 0 } }}
               key={p.id}
               className={selectedId === p.id ? "active" : ""}
               onClick={() => onSelect(p.id)}
@@ -20,9 +38,9 @@ export default function ProductList({ products, selectedId, onSelect }) {
                 score {p.compliance_score ?? "—"} · {p.input_type} ·{" "}
                 {p.review_status}
               </div>
-            </li>
+            </motion.li>
           ))}
-        </ul>
+        </motion.ul>
       )}
     </div>
   );

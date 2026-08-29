@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Info, FileText, Download, Check, X, Search } from "lucide-react";
 
 function StatusPill({ value }) {
   if (!value) return <span className="status-pill">—</span>;
@@ -13,13 +14,13 @@ export default function ProductDetail({
   busy,
 }) {
   const [comment, setComment] = useState("");
-  const [reportJson, setReportJson] = useState(null);
 
   if (!product) {
     return (
-      <div className="panel">
+      <div className="panel" style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div className="empty-state">
-          <h2>Inspection detail</h2>
+          <Search size={48} style={{ color: 'var(--muted)', marginBottom: '1rem' }} />
+          <h2>Inspection Detail</h2>
           <p>Select a scan or run a demo sample to inspect fields, findings, and evidence.</p>
         </div>
       </div>
@@ -156,54 +157,32 @@ export default function ProductDetail({
           className="secondary"
           disabled={busy}
           onClick={() => onReviewProduct(product.id, "confirmed", comment)}
+          style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
         >
-          Mark product confirmed
+          <Check size={16} /> Mark product confirmed
         </button>
         <button
           type="button"
           className="secondary"
           disabled={busy}
           onClick={() => onReviewProduct(product.id, "needs_review", comment)}
+          style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
         >
-          Mark needs review
+          <Info size={16} /> Mark needs review
         </button>
-        <button
-          type="button"
-          disabled={busy}
-          onClick={async () => {
-            const r = await onReport(product.id, "json");
-            setReportJson(r);
-          }}
-        >
-          Generate JSON report
-        </button>
+
         <button
           type="button"
           className="secondary"
           disabled={busy}
           onClick={() => onReport(product.id, "pdf")}
+          style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
         >
-          Generate PDF report
+          <Download size={16} /> Generate PDF report
         </button>
       </div>
 
-      {reportJson?.report ? (
-        <pre
-          className="mono"
-          style={{
-            marginTop: "1rem",
-            maxHeight: 240,
-            overflow: "auto",
-            background: "var(--bg)",
-            padding: "0.75rem",
-            borderRadius: 10,
-            border: "1px solid var(--border)",
-            fontSize: "0.75rem",
-          }}
-        >
-          {JSON.stringify(reportJson.report, null, 2)}
-        </pre>
-      ) : null}
+
     </div>
   );
 }

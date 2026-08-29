@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Activity, CheckCircle, AlertTriangle, ShieldCheck } from "lucide-react";
 import { api } from "./api/client";
 import StatsBar from "./components/StatsBar";
 import ScanPanel from "./components/ScanPanel";
@@ -159,63 +161,106 @@ export default function App() {
     }
   };
 
+  const titleText = "Legal Metrology".split(" ");
+  const titleText2 = "Compliance Checker".split(" ");
+
   return (
-    <div className="app-shell">
+    <motion.div className="app-shell" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
       <header className="topbar">
         <div className="brand">
-          <h1>Legal Metrology Compliance Checker</h1>
-          <p>
-            AI/OCR-assisted first-pass screening for e-commerce product
-            declarations — evidence-backed, human-reviewed.
-          </p>
+          <h1>
+            {titleText.map((word, i) => (
+              <motion.span
+                key={i}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+                style={{ display: "inline-block", marginRight: "0.25em" }}
+              >
+                {word}
+              </motion.span>
+            ))}
+            <br />
+            {titleText2.map((word, i) => (
+              <motion.span
+                key={i}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: (titleText.length + i) * 0.1, duration: 0.5 }}
+                style={{ display: "inline-block", marginRight: "0.25em" }}
+              >
+                {word}
+              </motion.span>
+            ))}
+          </h1>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}>
+            AI/OCR-assisted first-pass screening for e-commerce product declarations — evidence-backed, human-reviewed.
+          </motion.p>
         </div>
         <div className="badge-row">
           <span className={`badge ${health?.ok ? "live" : ""}`}>
-            API {health?.ok ? "online" : "offline"}
+            {health?.ok ? <CheckCircle size={14} style={{display:'inline', verticalAlign:'text-bottom', marginRight:'4px'}}/> : <AlertTriangle size={14} style={{display:'inline', verticalAlign:'text-bottom', marginRight:'4px'}}/>}
+            API {health?.ok ? "ONLINE" : "OFFLINE"}
           </span>
           <span className="badge">
-            OCR{" "}
-            {health?.ocr_tesseract_available
-              ? "Tesseract ready"
-              : "text/samples mode"}
+            <Activity size={14} style={{display:'inline', verticalAlign:'text-bottom', marginRight:'4px'}}/>
+            OCR {health?.ocr_tesseract_available ? "READY" : "TEXT MODE"}
           </span>
-          <span className="badge">Decision-support</span>
+          <span className="badge">
+            <ShieldCheck size={14} style={{display:'inline', verticalAlign:'text-bottom', marginRight:'4px'}}/>
+            DECISION-SUPPORT
+          </span>
         </div>
       </header>
 
-      <div className="disclaimer">{disclaimer}</div>
+      <motion.div 
+        className="disclaimer"
+        initial={{ y: 10, opacity: 0 }} 
+        animate={{ y: 0, opacity: 1 }} 
+        transition={{ delay: 0.7 }}
+      >
+        {disclaimer}
+      </motion.div>
 
-      {error ? <div className="error-box">{error}</div> : null}
+      {error ? (
+        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="error-box">
+          {error}
+        </motion.div>
+      ) : null}
 
-      <StatsBar stats={stats} />
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}>
+        <StatsBar stats={stats} />
+      </motion.div>
 
       {loading ? (
-        <div className="panel" style={{ marginBottom: "1rem" }}>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="panel" style={{ marginBottom: "2rem" }}>
           <h2>Processing pipeline</h2>
           <p className="muted" style={{ margin: 0 }}>
             <span className="spinner" />
             Collecting data → extracting fields → applying rules → attaching
             evidence…
           </p>
-        </div>
+        </motion.div>
       ) : null}
 
       <div className="layout">
-        <div>
+        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.9 }}>
           <ScanPanel samples={samples} onScan={handleScan} loading={loading} />
           <ProductList
             products={products}
             selectedId={selectedId}
             onSelect={setSelectedId}
           />
-        </div>
-        <ProductDetail
-          product={product}
-          onReviewFinding={handleReviewFinding}
-          onReviewProduct={handleReviewProduct}
-          onReport={handleReport}
-          busy={busy}
-        />
+        </motion.div>
+        <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.0 }}>
+          <ProductDetail
+            product={product}
+            onReviewFinding={handleReviewFinding}
+            onReviewProduct={handleReviewProduct}
+            onReport={handleReport}
+            busy={busy}
+          />
+        </motion.div>
       </div>
 
       {toast ? (
@@ -226,6 +271,6 @@ export default function App() {
           </button>
         </div>
       ) : null}
-    </div>
+    </motion.div>
   );
 }

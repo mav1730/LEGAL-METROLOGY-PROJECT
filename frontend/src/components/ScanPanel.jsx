@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Scan } from "lucide-react";
 
 const DEMO_PRODUCTS = [
   {
@@ -36,7 +37,10 @@ export default function ScanPanel({ samples, onScan, loading }) {
 
   return (
     <div className="panel">
-      <h2>New scan</h2>
+      <h2>
+        <Scan size={20} style={{ marginRight: "0.5rem" }} />
+        New Scan
+      </h2>
       <div className="tabs">
         {[
           ["url", "Product URL"],
