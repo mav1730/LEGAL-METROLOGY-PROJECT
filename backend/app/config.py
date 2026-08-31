@@ -35,12 +35,8 @@ SECRET_KEY = os.getenv("SECRET_KEY", "dev-legal-metrology-key")
 DEMO_MODE = os.getenv("DEMO_MODE", "1") not in ("0", "false", "False")
 PLAYWRIGHT_BROWSERS_PATH = os.environ.get("PLAYWRIGHT_BROWSERS_PATH", "")
 
-# Decision-support disclaimer (always returned by API)
-SYSTEM_DISCLAIMER = (
-    "This system is a compliance-screening and decision-support tool. "
-    "Automated findings are potential issues only and are not a final legal "
-    "determination. A human reviewer must confirm before any enforcement action."
-)
+# Disclaimer
+SYSTEM_DISCLAIMER = ""
 
 
 def ensure_dirs() -> None:

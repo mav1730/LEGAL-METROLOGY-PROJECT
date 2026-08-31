@@ -1,13 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Activity, CheckCircle, AlertTriangle, ShieldCheck } from "lucide-react";
 import { api } from "./api/client";
-import StatsBar from "./components/StatsBar";
-import ScanPanel from "./components/ScanPanel";
-import ProductList from "./components/ProductList";
-import ProductDetail from "./components/ProductDetail";
+import LandingPage from "./pages/LandingPage";
+import ComplianceScanPage from "./pages/ComplianceScanPage";
+import RulesPage from "./pages/RulesPage";
+import CatalogHistoryPage from "./pages/CatalogHistoryPage";
 
 export default function App() {
+  // Page routing state: 'home' | 'scanner' | 'rules' | 'history'
+  const [currentPage, setCurrentPage] = useState(() => {
+    if (window.location.hash === "#scanner") return "scanner";
+    if (window.location.hash === "#rules") return "rules";
+    if (window.location.hash === "#history" || window.location.hash === "#catalog") return "history";
+    return "home";
+  });
+
   const [stats, setStats] = useState(null);
   const [samples, setSamples] = useState([]);
   const [products, setProducts] = useState([]);
@@ -18,9 +24,38 @@ export default function App() {
   const [error, setError] = useState("");
   const [toast, setToast] = useState("");
   const [health, setHealth] = useState(null);
-  const [disclaimer, setDisclaimer] = useState(
-    "Decision-support only — not a legal authority."
-  );
+  const [disclaimer, setDisclaimer] = useState("");
+
+  // Sync hash with browser history
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === "#scanner") {
+        setCurrentPage("scanner");
+      } else if (window.location.hash === "#rules") {
+        setCurrentPage("rules");
+      } else if (window.location.hash === "#history" || window.location.hash === "#catalog") {
+        setCurrentPage("history");
+      } else {
+        setCurrentPage("home");
+      }
+    };
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  const navigateTo = (page) => {
+    setCurrentPage(page);
+    if (page === "scanner") {
+      window.location.hash = "#scanner";
+    } else if (page === "rules") {
+      window.location.hash = "#rules";
+    } else if (page === "history") {
+      window.location.hash = "#history";
+    } else {
+      window.location.hash = "";
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const flash = (message) => {
     setToast(message);
@@ -28,17 +63,21 @@ export default function App() {
   };
 
   const refreshLists = useCallback(async () => {
-    const [s, p, h, sm] = await Promise.all([
-      api.stats(),
-      api.products(),
-      api.health(),
-      api.samples(),
-    ]);
-    setStats(s.stats);
-    setProducts(p.products || []);
-    setHealth(h);
-    setSamples(sm.samples || []);
-    if (s.disclaimer) setDisclaimer(s.disclaimer);
+    try {
+      const [s, p, h, sm] = await Promise.all([
+        api.stats(),
+        api.products(),
+        api.health(),
+        api.samples(),
+      ]);
+      setStats(s.stats);
+      setProducts(p.products || []);
+      setHealth(h);
+      setSamples(sm.samples || []);
+      if (s.disclaimer) setDisclaimer(s.disclaimer);
+    } catch (err) {
+      console.warn("Initial data load error:", err);
+    }
   }, []);
 
   const loadProduct = useCallback(async (id) => {
@@ -98,6 +137,7 @@ export default function App() {
         setError(res.error + (res.hint ? ` — ${res.hint}` : ""));
       }
       if (res.disclaimer) setDisclaimer(res.disclaimer);
+      return res;
     } catch (e) {
       const msg = e.data?.error || e.message;
       const hint = e.data?.hint ? ` — ${e.data.hint}` : "";
@@ -106,6 +146,7 @@ export default function App() {
         setSelectedId(e.data.id);
         await refreshLists();
       }
+      return null;
     } finally {
       setLoading(false);
     }
@@ -141,17 +182,15 @@ export default function App() {
     }
   };
 
-  const handleReport = async (id, format) => {
+  const handleReport = async (id, format = "pdf") => {
     setBusy(true);
     setError("");
     try {
       const res = await api.report(id, format);
-      if (format === "pdf" && res.meta?.id) {
+      if (res?.meta?.id) {
         window.open(`/api/reports/${res.meta.id}`, "_blank");
-        flash("PDF report generated");
-      } else {
-        flash("JSON report generated");
       }
+      flash("PDF report generated successfully");
       return res;
     } catch (e) {
       setError(e.message);
@@ -161,116 +200,121 @@ export default function App() {
     }
   };
 
-  const titleText = "Legal Metrology".split(" ");
-  const titleText2 = "Compliance Checker".split(" ");
-
   return (
-    <motion.div className="app-shell" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-      <header className="topbar">
-        <div className="brand">
-          <h1>
-            {titleText.map((word, i) => (
-              <motion.span
-                key={i}
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                style={{ display: "inline-block", marginRight: "0.25em" }}
-              >
-                {word}
-              </motion.span>
-            ))}
-            <br />
-            {titleText2.map((word, i) => (
-              <motion.span
-                key={i}
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: (titleText.length + i) * 0.1, duration: 0.5 }}
-                style={{ display: "inline-block", marginRight: "0.25em" }}
-              >
-                {word}
-              </motion.span>
-            ))}
-          </h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}>
-            AI/OCR-assisted first-pass screening for e-commerce product declarations — evidence-backed, human-reviewed.
-          </motion.p>
+    <div className="main-wrapper">
+      {/* Top Global Navigation Bar */}
+      <header className="global-navbar">
+        <div className="nav-brand" onClick={() => navigateTo("home")} style={{ cursor: "pointer" }}>
+          <div className="brand-logo-mark">
+            <span>M</span>
+          </div>
+          <div className="brand-text">
+            <span className="brand-title">MetroCheck AI</span>
+            <span className="brand-tag">Legal Metrology</span>
+          </div>
         </div>
-        <div className="badge-row">
-          <span className={`badge ${health?.ok ? "live" : ""}`}>
-            {health?.ok ? <CheckCircle size={14} style={{display:'inline', verticalAlign:'text-bottom', marginRight:'4px'}}/> : <AlertTriangle size={14} style={{display:'inline', verticalAlign:'text-bottom', marginRight:'4px'}}/>}
-            API {health?.ok ? "ONLINE" : "OFFLINE"}
-          </span>
-          <span className="badge">
-            <Activity size={14} style={{display:'inline', verticalAlign:'text-bottom', marginRight:'4px'}}/>
-            OCR {health?.ocr_tesseract_available ? "READY" : "TEXT MODE"}
-          </span>
-          <span className="badge">
-            <ShieldCheck size={14} style={{display:'inline', verticalAlign:'text-bottom', marginRight:'4px'}}/>
-            DECISION-SUPPORT
-          </span>
-        </div>
+
+        <nav className="nav-links">
+          <button
+            type="button"
+            className={`nav-link-btn ${currentPage === "home" ? "active" : ""}`}
+            onClick={() => navigateTo("home")}
+          >
+            Home
+          </button>
+          <button
+            type="button"
+            className={`nav-link-btn ${currentPage === "scanner" ? "active" : ""}`}
+            onClick={() => navigateTo("scanner")}
+          >
+            Compliance Scanner
+          </button>
+          <button
+            type="button"
+            className={`nav-link-btn ${currentPage === "history" ? "active" : ""}`}
+            onClick={() => navigateTo("history")}
+          >
+            📦 Catalog &amp; Scan History
+          </button>
+          <button
+            type="button"
+            className={`nav-link-btn ${currentPage === "rules" ? "active" : ""}`}
+            onClick={() => navigateTo("rules")}
+          >
+            📜 Metrology Rules
+          </button>
+          <a
+            href="http://127.0.0.1:5000/demo/"
+            target="_blank"
+            rel="noreferrer"
+            className="nav-link-btn external"
+          >
+            DemoMart Storefront ↗
+          </a>
+        </nav>
       </header>
 
-      <motion.div 
-        className="disclaimer"
-        initial={{ y: 10, opacity: 0 }} 
-        animate={{ y: 0, opacity: 1 }} 
-        transition={{ delay: 0.7 }}
-      >
-        {disclaimer}
-      </motion.div>
+      {/* Separate Pages */}
+      {currentPage === "home" ? (
+        <LandingPage
+          onNavigateToScanner={() => navigateTo("scanner")}
+          stats={stats}
+          health={health}
+        />
+      ) : currentPage === "rules" ? (
+        <RulesPage
+          onNavigateToScanner={() => navigateTo("scanner")}
+          onNavigateToHome={() => navigateTo("home")}
+        />
+      ) : currentPage === "history" ? (
+        <CatalogHistoryPage
+          products={products}
+          onSelectProduct={(id) => {
+            setSelectedId(id);
+            navigateTo("scanner");
+          }}
+          onScanUrl={async (url) => {
+            const res = await handleScan({ type: "url", url, html: "" });
+            return res;
+          }}
+          onReport={handleReport}
+          onNavigateToScanner={() => navigateTo("scanner")}
+          onNavigateToHome={() => navigateTo("home")}
+          busy={busy}
+        />
+      ) : (
+        <ComplianceScanPage
+          stats={stats}
+          samples={samples}
+          selectedId={selectedId}
+          setSelectedId={setSelectedId}
+          product={product}
+          loading={loading}
+          busy={busy}
+          error={error}
+          disclaimer={disclaimer}
+          health={health}
+          handleScan={handleScan}
+          handleReviewFinding={handleReviewFinding}
+          handleReviewProduct={handleReviewProduct}
+          handleReport={handleReport}
+          onBackToHome={() => navigateTo("home")}
+        />
+      )}
 
-      {error ? (
-        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="error-box">
-          {error}
-        </motion.div>
-      ) : null}
-
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}>
-        <StatsBar stats={stats} />
-      </motion.div>
-
-      {loading ? (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="panel" style={{ marginBottom: "2rem" }}>
-          <h2>Processing pipeline</h2>
-          <p className="muted" style={{ margin: 0 }}>
-            <span className="spinner" />
-            Collecting data → extracting fields → applying rules → attaching
-            evidence…
-          </p>
-        </motion.div>
-      ) : null}
-
-      <div className="layout">
-        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.9 }}>
-          <ScanPanel samples={samples} onScan={handleScan} loading={loading} />
-          <ProductList
-            products={products}
-            selectedId={selectedId}
-            onSelect={setSelectedId}
-          />
-        </motion.div>
-        <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.0 }}>
-          <ProductDetail
-            product={product}
-            onReviewFinding={handleReviewFinding}
-            onReviewProduct={handleReviewProduct}
-            onReport={handleReport}
-            busy={busy}
-          />
-        </motion.div>
-      </div>
-
+      {/* Toast alert */}
       {toast ? (
         <div className="toast toast-info" role="status">
           <span>{toast}</span>
-          <button type="button" className="toast-close" onClick={() => setToast("")}>
+          <button
+            type="button"
+            className="toast-close"
+            onClick={() => setToast("")}
+          >
             ×
           </button>
         </div>
       ) : null}
-    </motion.div>
+    </div>
   );
 }

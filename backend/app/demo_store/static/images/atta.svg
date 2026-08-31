@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bgGradAtta" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffbeb"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
+    </linearGradient>
+    <linearGradient id="sackGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="24" fill="url(#bgGradAtta)"/>
+  <ellipse cx="200" cy="355" rx="100" ry="20" fill="rgba(180,83,9,0.18)"/>
+  <!-- Sack -->
+  <path d="M120 120 Q200 105 280 120 L265 335 Q200 350 135 335 Z" fill="url(#sackGrad)" stroke="#92400e" stroke-width="3"/>
+  <!-- Top stitched seam -->
+  <line x1="120" y1="120" x2="280" y2="120" stroke="#fef08a" stroke-width="6" stroke-dasharray="8,4"/>
+  <!-- Wheat emblem -->
+  <circle cx="200" cy="180" r="38" fill="#fef3c7" stroke="#78350f" stroke-width="2"/>
+  <path d="M195 160 Q200 145 205 160 L200 200 Z" fill="#b45309"/>
+  <path d="M188 170 Q192 160 196 172 Z" fill="#d97706"/>
+  <path d="M212 170 Q208 160 204 172 Z" fill="#d97706"/>
+  <!-- Typography -->
+  <text x="200" y="240" font-family="'Outfit', sans-serif" font-weight="900" font-size="16" fill="#ffffff" text-anchor="middle">ShudhKhet</text>
+  <text x="200" y="260" font-family="'Outfit', sans-serif" font-weight="800" font-size="12" fill="#fef08a" text-anchor="middle">100% WHOLE WHEAT ATTA</text>
+  <text x="200" y="278" font-family="'Outfit', sans-serif" font-weight="600" font-size="10" fill="#fef9c3" text-anchor="middle">Chakki Fresh Stone Ground</text>
+  <!-- Weight badge -->
+  <rect x="165" y="292" width="70" height="26" rx="8" fill="#78350f"/>
+  <text x="200" y="309" font-family="'Outfit', sans-serif" font-weight="900" font-size="13" fill="#fef08a" text-anchor="middle">10 kg</text>
+</svg>

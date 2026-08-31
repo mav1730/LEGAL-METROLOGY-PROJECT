@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import React from "react";
 
 export default function StatsBar({ stats }) {
   const items = [
@@ -8,33 +8,18 @@ export default function StatsBar({ stats }) {
     { label: "Confirmed", value: stats?.confirmed ?? 0 },
     {
       label: "Avg. score",
-      value: stats?.average_score != null ? stats.average_score : "—",
+      value: stats?.average_score != null ? `${stats.average_score}%` : "—",
     },
   ];
 
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemAnim = {
-    hidden: { opacity: 0, y: 10 },
-    show: { opacity: 1, y: 0 }
-  };
-
   return (
-    <motion.div className="stats-grid" variants={container} initial="hidden" animate="show">
+    <div className="stats-bar">
       {items.map((item) => (
-        <motion.div className="stat-card" key={item.label} variants={itemAnim}>
-          <div className="label">{item.label}</div>
-          <div className="value">{item.value}</div>
-        </motion.div>
+        <div className="stat-item" key={item.label}>
+          <span className="stat-item-label">{item.label}</span>
+          <span className="stat-item-val">{item.value}</span>
+        </div>
       ))}
-    </motion.div>
+    </div>
   );
 }

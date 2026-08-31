@@ -95,6 +95,19 @@ def create_app() -> Flask:
 
     @app.get("/demo/static/<path:filename>")
     def demo_static(filename: str):
+        target = DEMO_STATIC / filename
+        if not target.is_file() and filename.startswith("images/"):
+            svg = (
+                '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">'
+                '<rect width="400" height="400" fill="#181824"/>'
+                '<rect x="20" y="20" width="360" height="360" rx="16" fill="#222232" stroke="rgba(255,107,0,0.4)" stroke-width="2"/>'
+                '<circle cx="200" cy="160" r="50" fill="rgba(255,107,0,0.15)" stroke="#ff6b00" stroke-width="2"/>'
+                '<text x="200" y="172" fill="#ff9f1c" font-size="34" font-family="sans-serif" font-weight="bold" text-anchor="middle">📦</text>'
+                '<text x="200" y="250" fill="#ffffff" font-size="20" font-family="sans-serif" font-weight="bold" text-anchor="middle">DemoMart Product</text>'
+                '<text x="200" y="278" fill="#9ba1b0" font-size="14" font-family="sans-serif" text-anchor="middle">Legal Metrology Packaging Sample</text>'
+                '</svg>'
+            )
+            return Response(svg, mimetype="image/svg+xml")
         return send_from_directory(DEMO_STATIC, filename)
 
     # Back-compat old simple demo URLs → redirect-style render

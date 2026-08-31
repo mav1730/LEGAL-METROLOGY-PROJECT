@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bgGradRice" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#faf5ff"/>
+      <stop offset="100%" stop-color="#f3e8ff"/>
+    </linearGradient>
+    <linearGradient id="bagGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#581c87"/>
+      <stop offset="100%" stop-color="#3b0764"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="24" fill="url(#bgGradRice)"/>
+  <ellipse cx="200" cy="355" rx="100" ry="20" fill="rgba(59,7,100,0.18)"/>
+  <!-- Master Bag -->
+  <path d="M120 120 Q200 110 280 120 L270 330 Q200 345 130 330 Z" fill="url(#bagGrad)" stroke="#2e1065" stroke-width="3"/>
+  <!-- Bag handle/seal -->
+  <rect x="140" y="85" width="120" height="30" rx="15" fill="none" stroke="#facc15" stroke-width="6"/>
+  <!-- Bag Top Trim -->
+  <path d="M120 120 Q200 130 280 120" stroke="#facc15" stroke-width="6" fill="none"/>
+  <!-- Gold Royal Crest -->
+  <circle cx="200" cy="180" r="36" fill="#facc15" stroke="#ca8a04" stroke-width="2"/>
+  <polygon points="200,158 206,172 220,172 209,181 213,195 200,186 187,195 191,181 180,172 194,172" fill="#581c87"/>
+  <!-- Typography -->
+  <text x="200" y="240" font-family="'Outfit', sans-serif" font-weight="900" font-size="16" fill="#fef08a" text-anchor="middle">ROYAL HERITAGE</text>
+  <text x="200" y="260" font-family="'Outfit', sans-serif" font-weight="800" font-size="12" fill="#ffffff" text-anchor="middle">PREMIUM BASMATI RICE</text>
+  <text x="200" y="278" font-family="'Outfit', sans-serif" font-weight="600" font-size="10" fill="#e9d5ff" text-anchor="middle">Aged Royal Biryani Grain</text>
+  <!-- Net Qty Pill -->
+  <rect x="165" y="292" width="70" height="24" rx="8" fill="#facc15"/>
+  <text x="200" y="308" font-family="'Outfit', sans-serif" font-weight="900" font-size="13" fill="#3b0764" text-anchor="middle">5 kg</text>
+</svg>

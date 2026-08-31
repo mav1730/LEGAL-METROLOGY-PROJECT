@@ -1,0 +1,102 @@
+import React, { useState } from "react";
+import StatsBar from "../components/StatsBar";
+import ScanPanel from "../components/ScanPanel";
+import ProductDetail from "../components/ProductDetail";
+
+export default function ComplianceScanPage({
+  stats,
+  samples,
+  selectedId,
+  setSelectedId,
+  product,
+  loading,
+  busy,
+  error,
+  disclaimer,
+  health,
+  handleScan,
+  handleReviewFinding,
+  handleReviewProduct,
+  handleReport,
+  onBackToHome,
+}) {
+  const [showScanner, setShowScanner] = useState(false);
+
+  return (
+    <div className="compliance-scan-container">
+      {/* Top Header */}
+      <div className="scanner-top-header">
+        <div>
+          <div className="breadcrumb-nav">
+            {onBackToHome && (
+              <button type="button" className="breadcrumb-link" onClick={onBackToHome}>
+                ← Back to Home
+              </button>
+            )}
+            <span className="breadcrumb-sep">/</span>
+            <span className="breadcrumb-current">
+              {product && !showScanner ? "Inspection Details" : "Compliance Scanner"}
+            </span>
+          </div>
+          <h2 className="section-title">
+            {product && !showScanner
+              ? `Inspection: ${product.name || product.id}`
+              : "Legal Metrology Inspection Workspace"}
+          </h2>
+          <p className="section-subtitle">
+            {product && !showScanner
+              ? "Comprehensive statutory metrology assessment, extracted declarations, and rule findings."
+              : "Verify e-commerce product listings, extract declarations, and cross-match statutory metrology rules in real-time."}
+          </p>
+        </div>
+
+        <div className="badge-row">
+          {product && (
+            <button
+              type="button"
+              className={`mode-toggle-btn ${showScanner ? "active" : ""}`}
+              onClick={() => setShowScanner(!showScanner)}
+            >
+              {showScanner ? "📋 View Inspection" : "🔍 Scan Another Product"}
+            </button>
+          )}
+          <span className="badge">
+            OCR: {health?.ocr_tesseract_available ? "Tesseract ready" : "Text / Demo mode"}
+          </span>
+        </div>
+      </div>
+
+      {error ? <div className="error-box">{error}</div> : null}
+
+      <StatsBar stats={stats} />
+
+      {loading ? (
+        <div className="panel processing-banner-centered">
+          <h2>Processing pipeline</h2>
+          <p className="muted" style={{ margin: 0 }}>
+            <span className="spinner" />
+            Collecting data → extracting declarations → applying rules → calculating compliance score…
+          </p>
+        </div>
+      ) : null}
+
+      {/* Conditional rendering: if a product is inspected and scanner isn't forced, show full-width ProductDetail */}
+      {product && !showScanner ? (
+        <div className="full-width-inspection-wrap">
+          <ProductDetail
+            product={product}
+            busy={busy}
+            onReviewFinding={handleReviewFinding}
+            onReviewProduct={handleReviewProduct}
+            onReport={handleReport}
+            onScanAnother={() => setShowScanner(true)}
+          />
+        </div>
+      ) : (
+        <div className="scanner-standalone-wrap">
+          <ScanPanel samples={samples} onScan={handleScan} loading={loading} />
+        </div>
+      )}
+    </div>
+  );
+}

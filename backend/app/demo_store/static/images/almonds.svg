@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bgGradAlm" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffbeb"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
+    </linearGradient>
+    <linearGradient id="pouchAlm" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#78350f"/>
+      <stop offset="100%" stop-color="#451a03"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="24" fill="url(#bgGradAlm)"/>
+  <ellipse cx="200" cy="355" rx="85" ry="18" fill="rgba(69,26,3,0.18)"/>
+  <!-- Pouch -->
+  <path d="M125 100 L275 100 L260 330 L140 330 Z" fill="url(#pouchAlm)" stroke="#451a03" stroke-width="3"/>
+  <!-- Zip Lock line -->
+  <line x1="125" y1="120" x2="275" y2="120" stroke="#f59e0b" stroke-width="3" stroke-dasharray="6,3"/>
+  <!-- Window / Nut graphic -->
+  <ellipse cx="200" cy="220" rx="45" ry="32" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <!-- Almonds inside -->
+  <path d="M185 225 Q195 200 205 220 Q195 235 185 225 Z" fill="#b45309"/>
+  <path d="M205 225 Q215 205 222 225 Q212 240 205 225 Z" fill="#92400e"/>
+  <path d="M175 220 Q185 205 192 220 Q182 232 175 220 Z" fill="#d97706"/>
+  <!-- Typography -->
+  <text x="200" y="155" font-family="'Outfit', sans-serif" font-weight="900" font-size="16" fill="#fde68a" text-anchor="middle">NutriNut</text>
+  <text x="200" y="172" font-family="'Outfit', sans-serif" font-weight="700" font-size="11" fill="#ffffff" text-anchor="middle">CALIFORNIA ALMONDS</text>
+  <text x="200" y="278" font-family="'Outfit', sans-serif" font-weight="600" font-size="10" fill="#fde68a" text-anchor="middle">100% Natural Whole Badam Giri</text>
+  <!-- Weight Badge -->
+  <rect x="170" y="290" width="60" height="22" rx="6" fill="#f59e0b"/>
+  <text x="200" y="305" font-family="'Outfit', sans-serif" font-weight="900" font-size="11" fill="#451a03" text-anchor="middle">500 g</text>
+</svg>

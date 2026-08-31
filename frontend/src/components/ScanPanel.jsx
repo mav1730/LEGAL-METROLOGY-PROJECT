@@ -1,24 +1,4 @@
 import { useState } from "react";
-import { Scan } from "lucide-react";
-
-const DEMO_PRODUCTS = [
-  {
-    label: "Honey (complete → score ~100)",
-    url: "http://127.0.0.1:5000/demo/dp/hive-organic-honey-500g",
-  },
-  {
-    label: "Oil (missing origin)",
-    url: "http://127.0.0.1:5000/demo/dp/pure-groundnut-oil-1l",
-  },
-  {
-    label: "Chips (sparse listing)",
-    url: "http://127.0.0.1:5000/demo/dp/crunchyco-spicy-chips-50g",
-  },
-  {
-    label: "Tea bags (complete)",
-    url: "http://127.0.0.1:5000/demo/dp/assam-classic-tea-bags-100g",
-  },
-];
 
 export default function ScanPanel({ samples, onScan, loading }) {
   const [tab, setTab] = useState("url");
@@ -36,22 +16,24 @@ export default function ScanPanel({ samples, onScan, loading }) {
   };
 
   return (
-    <div className="panel">
-      <h2>
-        <Scan size={20} style={{ marginRight: "0.5rem" }} />
-        New Scan
-      </h2>
-      <div className="tabs">
+    <div className="panel scanner-centered-panel">
+      <div className="scanner-header-center">
+        <h2>Automated Compliance Inspection</h2>
+        <p className="muted" style={{ margin: 0 }}>
+          Select your inspection method to extract mandatory declarations and check statutory metrology rules.
+        </p>
+      </div>
+
+      <div className="tabs tabs-centered">
         {[
-          ["url", "Product URL"],
-          ["text", "Paste text"],
-          ["image", "Image OCR"],
-          ["sample", "Built-in samples"],
+          ["url", "🔗 Product URL"],
+          ["text", "📝 Paste Text"],
+          ["image", "📷 Image OCR"],
         ].map(([id, label]) => (
           <button
             key={id}
             type="button"
-            className={tab === id ? "active" : ""}
+            className={`tab-btn ${tab === id ? "active" : ""}`}
             onClick={() => setTab(id)}
           >
             {label}
@@ -60,136 +42,109 @@ export default function ScanPanel({ samples, onScan, loading }) {
       </div>
 
       {tab === "url" && (
-        <div className="stack">
-          <label htmlFor="url">Real product URL (Amazon / Flipkart / DemoMart)</label>
-          <input
-            id="url"
-            type="url"
-            placeholder="https://www.amazon.in/.../dp/XXXXXXXX  or  http://127.0.0.1:5000/demo/dp/..."
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-          />
-
-          <p className="muted" style={{ marginTop: 0 }}>
-            <b>DemoMart (always works — Amazon-style pages with images):</b>
-          </p>
-          <div className="sample-grid" style={{ marginBottom: "0.75rem" }}>
-            {DEMO_PRODUCTS.map((d) => (
-              <button
-                key={d.url}
-                type="button"
-                className="sample-btn"
-                disabled={loading}
-                onClick={() => {
-                  setUrl(d.url);
-                  onScan({ type: "url", url: d.url, html: "" });
-                }}
-              >
-                <strong>{d.label}</strong>
-                <span className="mono" style={{ fontSize: "0.72rem" }}>
-                  {d.url}
-                </span>
-              </button>
-            ))}
-          </div>
-          <p className="muted">
-            <a href="http://127.0.0.1:5000/demo/" target="_blank" rel="noreferrer">
-              Open DemoMart storefront ↗
-            </a>
-          </p>
-
-          <label htmlFor="html">
-            Optional: paste page HTML / product details (if Amazon blocks the server)
+        <div className="stack scanner-form-stack">
+          <label htmlFor="url" className="form-label-highlight">
+            Product Listing URL (Amazon / Flipkart / DemoMart)
           </label>
-          <textarea
-            id="html"
-            value={pageHtml}
-            onChange={(e) => setPageHtml(e.target.value)}
-            placeholder={
-              "If auto-fetch fails: open the real Amazon product in Chrome →\n" +
-              "copy Product details / Important information text (or Save Page HTML) → paste here.\n" +
-              "Keep the real product URL above for the report."
-            }
-          />
-
-          <button
-            type="button"
-            onClick={submit}
-            disabled={loading || (!url.trim() && !pageHtml.trim())}
-          >
-            {loading ? <span className="spinner" /> : null}
-            Scan product URL
-          </button>
-          <p className="muted" style={{ fontSize: "0.8rem" }}>
-            Amazon/Flipkart often block data-centre scrapers with CAPTCHA. That is their
-            anti-bot system — not a broken demo. Use DemoMart for reliable viva demos, or
-            paste details from a real page to still test real product content.
-          </p>
-        </div>
-      )}
-
-      {tab === "sample" && (
-        <div className="sample-grid">
-          <p className="muted">
-            Offline text samples (no URL). Prefer <b>Product URL + DemoMart</b> for URL demos.
-          </p>
-          {(samples || []).map((s) => (
+          <div className="url-input-wrapper">
+            <input
+              id="url"
+              type="url"
+              className="url-input-large"
+              placeholder="https://www.amazon.in/.../dp/XXXXXXXX  or  http://127.0.0.1:5000/demo/dp/..."
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+            />
             <button
-              key={s.id}
               type="button"
-              className="sample-btn"
-              disabled={loading}
-              onClick={() => onScan({ type: "sample", sample_id: s.id })}
+              className="btn-scan-main"
+              onClick={submit}
+              disabled={loading || (!url.trim() && !pageHtml.trim())}
             >
-              <strong>{s.name}</strong>
-              <span>{s.description}</span>
+              {loading ? <span className="spinner" /> : "⚡ "}
+              {loading ? "Inspecting..." : "Scan Product URL"}
             </button>
-          ))}
+          </div>
+
+          <details className="advanced-html-toggle">
+            <summary className="muted" style={{ cursor: "pointer", fontSize: "0.85rem" }}>
+              ▶ Optional: Paste raw HTML / product specifications (if website blocks automated fetch)
+            </summary>
+            <div style={{ marginTop: "0.65rem" }}>
+              <textarea
+                id="html"
+                value={pageHtml}
+                onChange={(e) => setPageHtml(e.target.value)}
+                placeholder={
+                  "If auto-fetch fails: open the real Amazon product in Chrome →\n" +
+                  "copy Product details / Important information text (or Save Page HTML) → paste here.\n" +
+                  "Keep the real product URL above for the report."
+                }
+              />
+            </div>
+          </details>
         </div>
       )}
 
       {tab === "text" && (
-        <div className="stack">
-          <label htmlFor="page">Page / listing text</label>
+        <div className="stack scanner-form-stack">
+          <label htmlFor="page" className="form-label-highlight">
+            Page / Listing Raw Text
+          </label>
           <textarea
             id="page"
+            rows="6"
             value={pageText}
             onChange={(e) => setPageText(e.target.value)}
-            placeholder="Paste product page text, specs, description from a real Amazon/Flipkart listing…"
+            placeholder="Paste product page text, specifications, description from an Amazon, Flipkart, or brand store listing…"
           />
-          <label htmlFor="ocr">OCR / packaging text (optional)</label>
+
+          <label htmlFor="ocr" className="form-label-highlight">
+            OCR / Packaging Text (Optional)
+          </label>
           <textarea
             id="ocr"
+            rows="4"
             value={ocrText}
             onChange={(e) => setOcrText(e.target.value)}
-            placeholder="Paste text read from packaging…"
+            placeholder="Paste packaging label text or OCR transcript here…"
           />
+
           <button
             type="button"
+            className="btn-scan-main"
             onClick={submit}
             disabled={loading || (!pageText.trim() && !ocrText.trim())}
           >
-            {loading ? <span className="spinner" /> : null}
-            Extract &amp; check
+            {loading ? <span className="spinner" /> : "⚡ "}
+            {loading ? "Inspecting Text..." : "Inspect Raw Text"}
           </button>
         </div>
       )}
 
       {tab === "image" && (
-        <div className="stack">
-          <label htmlFor="img">Packaging image</label>
+        <div className="stack scanner-form-stack">
+          <label htmlFor="image" className="form-label-highlight">
+            Packaging Image / Label Photo
+          </label>
+          <p className="muted" style={{ margin: "0 0 0.5rem", fontSize: "0.85rem" }}>
+            Upload a clear photo of the product packaging (PDP, side panel, or MRP sticker).
+          </p>
           <input
-            id="img"
+            id="image"
             type="file"
             accept="image/*"
             onChange={(e) => setFile(e.target.files?.[0] || null)}
           />
-          <p className="muted">
-            Requires free Tesseract OCR on the server. Without it, use paste-text or DemoMart.
-          </p>
-          <button type="button" onClick={submit} disabled={loading || !file}>
-            {loading ? <span className="spinner" /> : null}
-            OCR &amp; check
+
+          <button
+            type="button"
+            className="btn-scan-main"
+            onClick={submit}
+            disabled={loading || !file}
+          >
+            {loading ? <span className="spinner" /> : "📷 "}
+            {loading ? "Performing OCR..." : "Scan Image (OCR)"}
           </button>
         </div>
       )}

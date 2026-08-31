@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff8eb"/>
+      <stop offset="100%" stop-color="#feebc8"/>
+    </linearGradient>
+    <linearGradient id="honeyGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e28704"/>
+      <stop offset="50%" stop-color="#ffb703"/>
+      <stop offset="100%" stop-color="#d47900"/>
+    </linearGradient>
+    <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.7)"/>
+      <stop offset="20%" stop-color="rgba(255,255,255,0.2)"/>
+      <stop offset="80%" stop-color="rgba(255,255,255,0.1)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.5)"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="24" fill="url(#bgGrad)"/>
+  <ellipse cx="200" cy="350" rx="90" ry="18" fill="rgba(180,83,9,0.18)"/>
+  <!-- Jar Body -->
+  <rect x="130" y="140" width="140" height="190" rx="28" fill="url(#honeyGrad)" stroke="#b45309" stroke-width="3"/>
+  <rect x="130" y="140" width="140" height="190" rx="28" fill="url(#glassGrad)"/>
+  <!-- Honey highlight -->
+  <path d="M145 160 Q155 240 145 310" stroke="rgba(255,255,255,0.6)" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <!-- Jar Lid -->
+  <rect x="140" y="105" width="120" height="36" rx="8" fill="#b45309" stroke="#78350f" stroke-width="2"/>
+  <rect x="145" y="112" width="110" height="6" rx="3" fill="#d97706"/>
+  <!-- Honey Label -->
+  <rect x="145" y="195" width="110" height="85" rx="8" fill="#ffffff" stroke="#d97706" stroke-width="2"/>
+  <text x="200" y="222" font-family="'Outfit', sans-serif" font-weight="900" font-size="16" fill="#78350f" text-anchor="middle">HIVE</text>
+  <text x="200" y="238" font-family="'Outfit', sans-serif" font-weight="700" font-size="10" fill="#b45309" text-anchor="middle">RAW ORGANIC HONEY</text>
+  <text x="200" y="254" font-family="'Outfit', sans-serif" font-weight="600" font-size="9" fill="#451a03" text-anchor="middle">100% Himalayan Pure</text>
+  <rect x="175" y="260" width="50" height="14" rx="4" fill="#fef3c7"/>
+  <text x="200" y="270" font-family="'Outfit', sans-serif" font-weight="800" font-size="9" fill="#92400e" text-anchor="middle">500 g</text>
+  <!-- Decorative honey bee icon -->
+  <circle cx="200" cy="172" r="10" fill="#fde047"/>
+  <ellipse cx="193" cy="167" rx="6" ry="3" fill="#ffffff" opacity="0.8" transform="rotate(-30 193 167)"/>
+  <ellipse cx="207" cy="167" rx="6" ry="3" fill="#ffffff" opacity="0.8" transform="rotate(30 207 167)"/>
+</svg>

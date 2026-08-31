@@ -109,7 +109,7 @@ def render_home(base_url: str = "http://127.0.0.1:5000") -> str:
           <code>{escape(base_url)}/demo/dp/hive-organic-honey-500g</code>
         </div>
       </section>
-      <h2 class="section-title" id="products">Featured grocery products</h2>
+      <h2 class="section-title" id="products">All Verified Demo Products ({len(list_products())} Items)</h2>
       <div class="grid">
         {''.join(cards)}
       </div>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bgGradTea" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0fdf4"/>
+      <stop offset="100%" stop-color="#dcfce7"/>
+    </linearGradient>
+    <linearGradient id="boxGradTea" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="100%" stop-color="#166534"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="24" fill="url(#bgGradTea)"/>
+  <ellipse cx="200" cy="350" rx="95" ry="18" fill="rgba(22,101,52,0.18)"/>
+  <!-- Box Body -->
+  <rect x="115" y="110" width="170" height="220" rx="14" fill="url(#boxGradTea)" stroke="#14532d" stroke-width="3"/>
+  <!-- Gold Accent Lines -->
+  <rect x="125" y="120" width="150" height="200" rx="8" fill="none" stroke="#facc15" stroke-width="2"/>
+  <!-- Label Content -->
+  <circle cx="200" cy="170" r="32" fill="#14532d" stroke="#facc15" stroke-width="2"/>
+  <!-- Tea Leaf icon -->
+  <path d="M190 178 Q200 150 212 165 Q205 185 190 178 Z" fill="#4ade80"/>
+  <path d="M190 178 L206 168" stroke="#166534" stroke-width="1.5"/>
+  <text x="200" y="225" font-family="'Outfit', sans-serif" font-weight="900" font-size="16" fill="#fef08a" text-anchor="middle">Assam Valley</text>
+  <text x="200" y="245" font-family="'Outfit', sans-serif" font-weight="700" font-size="12" fill="#ffffff" text-anchor="middle">CLASSIC TEA BAGS</text>
+  <text x="200" y="265" font-family="'Outfit', sans-serif" font-weight="600" font-size="10" fill="#bbf7d0" text-anchor="middle">Strong Morning Chai</text>
+  <!-- Badges -->
+  <rect x="145" y="280" width="110" height="24" rx="6" fill="#ca8a04"/>
+  <text x="200" y="296" font-family="'Outfit', sans-serif" font-weight="800" font-size="11" fill="#ffffff" text-anchor="middle">50 Bags · 100 g</text>
+</svg>

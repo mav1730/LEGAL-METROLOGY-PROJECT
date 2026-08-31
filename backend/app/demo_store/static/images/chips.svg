@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bgGradChips" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff1f2"/>
+      <stop offset="100%" stop-color="#ffe4e6"/>
+    </linearGradient>
+    <linearGradient id="pouchGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e11d48"/>
+      <stop offset="50%" stop-color="#be123c"/>
+      <stop offset="100%" stop-color="#9f1239"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="24" fill="url(#bgGradChips)"/>
+  <ellipse cx="200" cy="355" rx="85" ry="18" fill="rgba(159,18,57,0.18)"/>
+  <!-- Pouch Body -->
+  <path d="M125 90 L275 90 L260 330 L140 330 Z" fill="url(#pouchGrad)" stroke="#881337" stroke-width="2.5"/>
+  <!-- Pouch seals -->
+  <line x1="120" y1="90" x2="280" y2="90" stroke="#f43f5e" stroke-width="8" stroke-dasharray="4,2"/>
+  <line x1="135" y1="330" x2="265" y2="330" stroke="#f43f5e" stroke-width="8" stroke-dasharray="4,2"/>
+  <!-- Highlight -->
+  <path d="M145 105 L155 315" stroke="rgba(255,255,255,0.3)" stroke-width="8" stroke-linecap="round"/>
+  <!-- Graphics & Typography -->
+  <circle cx="200" cy="180" r="46" fill="#fbbf24" stroke="#f59e0b" stroke-width="3"/>
+  <text x="200" y="174" font-family="'Outfit', sans-serif" font-weight="900" font-size="14" fill="#991b1b" text-anchor="middle">CrunchyCo</text>
+  <text x="200" y="195" font-family="'Outfit', sans-serif" font-weight="800" font-size="16" fill="#7f1d1d" text-anchor="middle">SPICY CHIPS</text>
+  <!-- Potato chip illustrations -->
+  <ellipse cx="180" cy="255" rx="22" ry="14" fill="#fde047" stroke="#ca8a04" stroke-width="1.5" transform="rotate(-15 180 255)"/>
+  <ellipse cx="220" cy="265" rx="24" ry="15" fill="#facc15" stroke="#ca8a04" stroke-width="1.5" transform="rotate(20 220 265)"/>
+  <!-- Weight badge -->
+  <rect x="175" y="295" width="50" height="18" rx="6" fill="#1e293b"/>
+  <text x="200" y="308" font-family="'Outfit', sans-serif" font-weight="800" font-size="10" fill="#f8fafc" text-anchor="middle">50 g</text>
+</svg>
