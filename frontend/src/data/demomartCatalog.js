@@ -391,3 +391,6 @@ export const DEMOMART_CATALOG = [
     url: "http://127.0.0.1:5000/demo/dp/crunchyco-spicy-chips-50g"
   }
 ];
+
+export default DEMOMART_CATALOG;
+
