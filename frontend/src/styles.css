@@ -802,7 +802,139 @@ textarea:focus {
   border-color: var(--accent);
 }
 
-/* StatsBar Component */
+/* Scanner Workspace & Two-Column Layout */
+.scanner-workspace-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 1.75rem;
+  align-items: start;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 992px) {
+  .scanner-workspace-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.scanner-main-col {
+  width: 100%;
+}
+
+.scanner-main-col .scanner-centered-panel {
+  max-width: 100%;
+  margin: 0;
+}
+
+.scanner-sidebar-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Vertical Stats Card */
+.stats-vertical-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.25rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.stats-vertical-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.85rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.stats-hdr-icon {
+  font-size: 1.35rem;
+  color: var(--accent);
+  background: rgba(255, 107, 0, 0.12);
+  padding: 0.35rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stats-hdr-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.stats-card-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.stats-card-subtitle {
+  font-size: 0.72rem;
+  color: var(--muted);
+  display: block;
+}
+
+.stats-vertical-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.stat-item-vertical {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.85rem 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+}
+
+.stat-item-vertical:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+  transform: translateX(2px);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.stat-item-vertical .stat-item-label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.stat-item-vertical .stat-item-val {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-item-vertical.stat-warn .stat-item-val {
+  color: var(--warn);
+}
+
+.stat-item-vertical.stat-info .stat-item-val {
+  color: #38bdf8;
+}
+
+.stat-item-vertical.stat-ok .stat-item-val {
+  color: var(--ok);
+}
+
+.stat-item-vertical.stat-accent .stat-item-val {
+  color: #ff9f1c;
+}
+
+/* StatsBar Component (fallback / legacy) */
 .stats-bar {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

@@ -139,7 +139,7 @@ export default function CatalogHistoryPage({
 
         <div className="history-hero-title-row">
           <div>
-            <h1 className="history-main-title">DemoMart Verified Catalog &amp; Scan History</h1>
+            <h1 className="history-main-title">Verified Catalog &amp; Scan History</h1>
             <p className="history-subtitle">
               Browse pre-audited product listings with full metrology metadata, inspect historical scan results with timestamps, and download official PDF compliance reports.
             </p>
@@ -166,7 +166,7 @@ export default function CatalogHistoryPage({
           onClick={() => setActiveTab("catalog")}
         >
           <span className="material-symbols-outlined tab-icon">verified</span>
-          DemoMart Verified Catalog ({DEMOMART_CATALOG.length})
+          Verified Catalog ({DEMOMART_CATALOG.length})
         </button>
         <button
           type="button"

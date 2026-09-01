@@ -68,18 +68,6 @@ export default function ComplianceScanPage({
 
       {error ? <div className="error-box">{error}</div> : null}
 
-      <StatsBar stats={stats} />
-
-      {loading ? (
-        <div className="panel processing-banner-centered">
-          <h2>Processing pipeline</h2>
-          <p className="muted" style={{ margin: 0 }}>
-            <span className="spinner" />
-            Collecting data → extracting declarations → applying rules → calculating compliance score…
-          </p>
-        </div>
-      ) : null}
-
       {/* Conditional rendering: if a product is inspected and scanner isn't forced, show full-width ProductDetail */}
       {product && !showScanner ? (
         <div className="full-width-inspection-wrap">
@@ -93,8 +81,13 @@ export default function ComplianceScanPage({
           />
         </div>
       ) : (
-        <div className="scanner-standalone-wrap">
-          <ScanPanel samples={samples} onScan={handleScan} loading={loading} />
+        <div className="scanner-workspace-layout">
+          <div className="scanner-main-col">
+            <ScanPanel samples={samples} onScan={handleScan} loading={loading} />
+          </div>
+          <aside className="scanner-sidebar-col">
+            <StatsBar stats={stats} />
+          </aside>
         </div>
       )}
     </div>
