@@ -4,6 +4,9 @@ __pycache__/
 .venv/
 venv/
 .env
+.env.*
+!.env.example
+backend/.env
 backend/data/uploads/
 backend/data/reports/
 backend/data/*.db
@@ -11,4 +14,11 @@ backend/data/compliance.db
 frontend/node_modules/
 frontend/dist/
 .DS_Store
+Thumbs.db
 *.log
+tree.txt
+*.lnk
+.vscode/
+.idea/
+*.swp
+*~
