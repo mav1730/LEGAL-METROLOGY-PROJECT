@@ -4,8 +4,11 @@ from __future__ import annotations
 
 from typing import Any
 
+from app.demo_store.regex_blind import REGEX_BLIND_DOCS
+
 # All product pages include labeled declarations so the compliance scraper
 # can extract them the same way it would from a real listing + packaging text.
+# Regex-blind SKUs keep paraphrased wording for the NER demo.
 
 PRODUCTS: dict[str, dict[str, Any]] = {
     # 1. Organic Honey
@@ -721,9 +724,67 @@ PRODUCTS: dict[str, dict[str, Any]] = {
 }
 
 
+def _regex_blind_catalog_entry(doc: dict[str, Any]) -> dict[str, Any]:
+    slug = doc["id"]
+    values = doc["values"]
+    return {
+        "asin": doc["asin"],
+        "slug": slug,
+        "title": doc["title"],
+        "brand": doc["brand"],
+        "category": doc["category"],
+        "price": doc["price"],
+        "mrp": doc["price"],
+        "mrp_display": f"Rs. {doc['price']}",
+        "discount_note": "Inclusive of all taxes",
+        "rating": 4.1,
+        "reviews": 640,
+        "bought": "400+ bought in past month",
+        "in_stock": True,
+        "images": list(doc["images"]),
+        "bullets": list(doc["bullets"]),
+        "fields": {
+            "product_name": values["product_name"],
+            "mrp": values["mrp"],
+            "net_quantity": values["net_quantity"],
+            "manufacturer": values["manufacturer"],
+            "country_of_origin": values["country_of_origin"],
+            "manufacturing_date": values["manufacturing_date"],
+            "expiry_date": values["expiry_date"],
+        },
+        "lm_lines": list(doc["lm_lines"]),
+        "description": doc["text"],
+        "regex_blind": True,
+        "scenario": "regex_blind",
+        "scenario_label": "Paraphrased declarations (regex-blind)",
+    }
+
+
+for _blind in REGEX_BLIND_DOCS:
+    PRODUCTS[_blind["id"]] = _regex_blind_catalog_entry(_blind)
+
+
 def list_products() -> list[dict[str, Any]]:
     return list(PRODUCTS.values())
 
 
 def get_product(slug: str) -> dict[str, Any] | None:
     return PRODUCTS.get(slug)
+
+
+def public_catalog(base_url: str = "http://127.0.0.1:5000") -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
+    for p in PRODUCTS.values():
+        out.append(
+            {
+                "slug": p["slug"],
+                "title": p["title"],
+                "brand": p.get("brand"),
+                "url": f"{base_url.rstrip('/')}/demo/dp/{p['slug']}",
+                "price": p["price"],
+                "scenario": p.get("scenario"),
+                "scenario_label": p.get("scenario_label"),
+                "regex_blind": bool(p.get("regex_blind")),
+            }
+        )
+    return out

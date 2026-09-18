@@ -41,6 +41,15 @@ def create_app() -> Flask:
     CORS(app, resources={r"/api/*": {"origins": "*"}})
     app.register_blueprint(api_bp, url_prefix="/api")
 
+    # Warm NER once at process start so the first viva scan is not a 10s load.
+    try:
+        from app.field_extractor.ner_extractor import extract_fields_ner, ner_available
+
+        if ner_available():
+            extract_fields_ner("warmup")
+    except Exception:  # noqa: BLE001
+        pass
+
     @app.get("/")
     def root():
         base = f"http://{HOST}:{PORT}"

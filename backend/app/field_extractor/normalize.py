@@ -43,6 +43,13 @@ _LABEL_ALIASES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bcountry\s+of\s+origin\b", re.I), "Country of Origin"),
     (re.compile(r"\bcountry\s+of\s+manufacture\b", re.I), "Country of Origin"),
     (re.compile(r"\bmfg\.?\s*date\b", re.I), "Mfg Date"),
+    (
+        re.compile(
+            r"\bmonth\s*(?:and|&)\s*year\s+of\s+(?:packing|pack|manufacture|manufacturing|import)\b",
+            re.I,
+        ),
+        "Mfg Date",
+    ),
     (re.compile(r"\bmfd\.?\s*(?:date|on)?\b", re.I), "Mfg Date"),
     (re.compile(r"\bmanufacturing\s+date\b", re.I), "Mfg Date"),
     (re.compile(r"\bdate\s+of\s+manufacture\b", re.I), "Mfg Date"),

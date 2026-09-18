@@ -120,6 +120,7 @@ export default function App() {
 
       const id = res.id || res.product?.id;
       if (id) {
+        navigateTo("scanner");
         setSelectedId(id);
         await refreshLists();
         await loadProduct(id);
@@ -134,14 +135,27 @@ export default function App() {
         }
       }
       if (res.ok === false && res.error) {
-        setError(res.error + (res.hint ? ` — ${res.hint}` : ""));
+        const blocked =
+          res.error_code === "marketplace_blocked" ||
+          /blocked automated|captcha|bot wall/i.test(res.error);
+        setError(
+          blocked
+            ? `${res.error} Use a DemoMart link (http://127.0.0.1:5000/demo/) or paste the product details in the Text tab.`
+            : res.error + (res.hint ? ` — ${res.hint}` : "")
+        );
       }
       if (res.disclaimer) setDisclaimer(res.disclaimer);
       return res;
     } catch (e) {
       const msg = e.data?.error || e.message;
-      const hint = e.data?.hint ? ` — ${e.data.hint}` : "";
-      setError(msg + hint);
+      const blocked =
+        e.data?.error_code === "marketplace_blocked" ||
+        /blocked automated|captcha|bot wall/i.test(msg || "");
+      setError(
+        blocked
+          ? `${msg} Use a DemoMart link (http://127.0.0.1:5000/demo/) or paste product details in the Text tab.`
+          : msg + (e.data?.hint ? ` — ${e.data.hint}` : "")
+      );
       if (e.data?.id) {
         setSelectedId(e.data.id);
         await refreshLists();

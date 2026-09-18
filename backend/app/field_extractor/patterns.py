@@ -30,7 +30,8 @@ class PatternSpec:
 # ---------------------------------------------------------------------------
 
 # Money amount: 499 | 499.00 | 1,299.50 | 99/-
-_AMOUNT = r"(?P<value>\d{1,3}(?:,\d{3})*(?:\.\d{1,2})?|\d+(?:\.\d{1,2})?)"
+# First branch used to be \d{1,3} which captured "116" out of "1169".
+_AMOUNT = r"(?P<value>(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d{1,2})?)(?!\d)"
 _AMOUNT_TRAIL = r"(?:\s*/\s*-)?"
 
 # Quantity number
@@ -258,6 +259,7 @@ MANUFACTURER_PATTERNS: list[PatternSpec] = [
 _COUNTRY_STOP = (
     r"(?=\s*(?:MRP|Net Quantity|Mfg Date|Pkd Date|Exp Date|Best Before|"
     r"Manufactured by|Packed by|Marketed by|Manufacturer|Customer Care|"
+    r"Month|Packed|Packing|Imported|Scenario|"
     r"FSSAI|PIN|Batch|Lot|Item Weight|Brand|Ingredients|Nutrition|"
     r",|\||$|\.))"
 )

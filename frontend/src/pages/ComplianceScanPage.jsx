@@ -68,28 +68,29 @@ export default function ComplianceScanPage({
 
       {error ? <div className="error-box">{error}</div> : null}
 
-      {/* Conditional rendering: if a product is inspected and scanner isn't forced, show full-width ProductDetail */}
-      {product && !showScanner ? (
-        <div className="full-width-inspection-wrap">
-          <ProductDetail
-            product={product}
-            busy={busy}
-            onReviewFinding={handleReviewFinding}
-            onReviewProduct={handleReviewProduct}
-            onReport={handleReport}
-            onScanAnother={() => setShowScanner(true)}
-          />
+      <div className="scanner-workspace-layout">
+        <div className="scanner-main-col">
+          <ScanPanel samples={samples} onScan={handleScan} loading={loading} />
+          {product ? (
+            <div className="full-width-inspection-wrap" style={{ marginTop: "1.25rem" }}>
+              <ProductDetail
+                product={product}
+                busy={busy}
+                onReviewFinding={handleReviewFinding}
+                onReviewProduct={handleReviewProduct}
+                onReport={handleReport}
+                onScanAnother={() => {
+                  setShowScanner(true);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              />
+            </div>
+          ) : null}
         </div>
-      ) : (
-        <div className="scanner-workspace-layout">
-          <div className="scanner-main-col">
-            <ScanPanel samples={samples} onScan={handleScan} loading={loading} />
-          </div>
-          <aside className="scanner-sidebar-col">
-            <StatsBar stats={stats} />
-          </aside>
-        </div>
-      )}
+        <aside className="scanner-sidebar-col">
+          <StatsBar stats={stats} />
+        </aside>
+      </div>
     </div>
   );
 }

@@ -1,0 +1,16 @@
+# Optional ML extra for the DistilBERT field-span NER.
+# Do NOT install this for the Flask MVP — torch is heavy and not required
+# for regex extraction, the rule engine, or pytest.
+#
+# CPU wheel (Windows / Linux, no NVIDIA):
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+#   pip install -r requirements-ml.txt
+#
+# GPU (Colab T4):
+#   pip install -r requirements-ml.txt
+
+torch>=2.2.0
+transformers>=4.40.0
+datasets>=2.19.0
+seqeval>=1.2.2
+accelerate>=0.30.0

@@ -35,8 +35,22 @@ SECRET_KEY = os.getenv("SECRET_KEY", "dev-legal-metrology-key")
 DEMO_MODE = os.getenv("DEMO_MODE", "1") not in ("0", "false", "False")
 PLAYWRIGHT_BROWSERS_PATH = os.environ.get("PLAYWRIGHT_BROWSERS_PATH", "")
 
-# Disclaimer
-SYSTEM_DISCLAIMER = ""
+# Field extractor: regex (precision-first) | ner (offline DistilBERT) | hybrid
+_EXTRACTOR_MODE_RAW = os.getenv("EXTRACTOR_MODE", "hybrid").strip().lower()
+EXTRACTOR_MODE = (
+    _EXTRACTOR_MODE_RAW
+    if _EXTRACTOR_MODE_RAW in {"regex", "ner", "hybrid"}
+    else "hybrid"
+)
+NER_MODEL_DIR = Path(
+    os.getenv("NER_MODEL_DIR", BASE_DIR / "app" / "ml" / "ner_model")
+).resolve()
+
+SYSTEM_DISCLAIMER = (
+    "This system is a compliance-screening and decision-support tool. "
+    "Automated findings are potential issues only and are not a final legal "
+    "determination. A human reviewer must confirm before any enforcement action."
+)
 
 
 def ensure_dirs() -> None:

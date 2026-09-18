@@ -1,7 +1,7 @@
 """Free, offline Legal Metrology field extraction from OCR / page text."""
 
 from .extractors import extract_fields, extract_from_ocr, extract_from_page
-from .merge import extract_and_merge, merge_fields
+from .merge import extract_and_merge, extract_with_mode, merge_fields, merge_regex_ner
 from .models import (
     Evidence,
     ExtractedField,
@@ -22,7 +22,9 @@ __all__ = [
     "extract_from_ocr",
     "extract_from_page",
     "extract_and_merge",
+    "extract_with_mode",
     "merge_fields",
+    "merge_regex_ner",
 ]
 
 __version__ = "1.0.0"

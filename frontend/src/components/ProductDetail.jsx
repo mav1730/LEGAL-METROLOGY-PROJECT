@@ -1,8 +1,18 @@
 import React, { useState } from "react";
 
 function StatusPill({ value }) {
-  if (!value) return <span className="status-pill">—</span>;
-  return <span className={`status-pill ${value}`}>{value.replaceAll("_", " ")}</span>;
+  if (value == null || value === "") return <span className="status-pill">—</span>;
+  const label = String(value);
+  return <span className={`status-pill ${label}`}>{label.replaceAll("_", " ")}</span>;
+}
+
+function evidenceText(evidence) {
+  if (evidence == null || evidence === "") return "";
+  if (typeof evidence === "string") return evidence;
+  if (typeof evidence === "object") {
+    return evidence.matched_text || evidence.text || "";
+  }
+  return String(evidence);
 }
 
 export default function ProductDetail({
@@ -191,12 +201,12 @@ export default function ProductDetail({
 
                   <p className="finding-explanation">{f.explanation}</p>
 
-                  {f.evidence && (
+                  {evidenceText(f.evidence) ? (
                     <div className="finding-evidence-box">
                       <span className="evidence-label">Observed Evidence:</span>
-                      <span className="mono evidence-text">{f.evidence}</span>
+                      <span className="mono evidence-text">{evidenceText(f.evidence)}</span>
                     </div>
-                  )}
+                  ) : null}
 
                   {/* Reviewer Action Bar */}
                   <div className="finding-review-bar">

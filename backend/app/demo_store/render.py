@@ -84,7 +84,7 @@ def render_home(base_url: str = "http://127.0.0.1:5000") -> str:
               <div class="stars">{_stars(p['rating'])}<span>{p['reviews']:,}</span></div>
               <div class="price-row">
                 <span class="symbol">₹</span><span class="amount">{p['price']}</span>
-                <span class="mrp-strike">M.R.P: ₹{p['mrp']}</span>
+                {'' if p.get('regex_blind') else f'<span class="mrp-strike">M.R.P: ₹{p["mrp"]}</span>'}
               </div>
               <div class="prime">Demo Delivery</div>
               <div style="font-size:11px;color:#565959;margin-top:6px;">{escape(p['scenario_label'])}</div>
@@ -97,9 +97,10 @@ def render_home(base_url: str = "http://127.0.0.1:5000") -> str:
       <section class="hero">
         <h1>DemoMart — Amazon-style demo storefront</h1>
         <p>
-          Fake product pages with images, prices, and Legal Metrology-style declarations
-          (MRP, net quantity, manufacturer, country of origin, dates).
-          Use these product links in the Compliance Checker <b>Product URL</b> tab.
+          Fake product pages with images, prices, and Legal Metrology-style declarations.
+          <b>Complete</b> listings use canonical labels (MRP, Manufactured by) — regex finds them.
+          <b>Paraphrased (regex-blind)</b> listings use Pack price / Plant operator / COO —
+          regex misses; hybrid NER should fill the spans.
         </p>
         <div class="scan-hint">
           <b>How to test:</b> Copy a product link below → open
@@ -191,32 +192,53 @@ def render_product(p: dict[str, Any], base_url: str = "http://127.0.0.1:5000") -
             f"<tr><th>{escape(str(label))}</th><td>{escape(str(value))}</td></tr>"
         )
 
-    # Single labeled block for Legal Metrology (one declaration per field)
-    lm_lines = []
-    if fields.get("product_name"):
-        lm_lines.append(fields["product_name"] if str(fields["product_name"]).lower().startswith("product") else f"Product Name: {pname_cell}")
-    if fields.get("mrp"):
-        lm_lines.append(fields["mrp"] if str(fields["mrp"]).upper().startswith("MRP") else f"MRP Rs. {mrp_cell}")
-    if fields.get("net_quantity"):
-        lm_lines.append(fields["net_quantity"] if "net" in str(fields["net_quantity"]).lower() else f"Net Quantity: {qty_cell}")
-    if fields.get("manufacturer"):
-        lm_lines.append(
-            fields["manufacturer"]
-            if "manufactured" in str(fields["manufacturer"]).lower()
-            else f"Manufactured by: {mfg_cell}"
-        )
-    if fields.get("country_of_origin"):
-        lm_lines.append(fields["country_of_origin"])
-    if fields.get("manufacturing_date"):
-        lm_lines.append(fields["manufacturing_date"])
-    if fields.get("expiry_date"):
-        lm_lines.append(fields["expiry_date"])
-    if fields.get("customer_care"):
-        lm_lines.append(fields["customer_care"])
-    if fields.get("fssai"):
-        lm_lines.append(fields["fssai"])
+    # Single labeled block for Legal Metrology (one declaration per field).
+    # Regex-blind SKUs pass lm_lines through verbatim — do not rewrite to
+    # canonical "MRP" / "Manufactured by" labels.
+    if p.get("lm_lines"):
+        lm_lines = [str(line) for line in p["lm_lines"] if line]
+    else:
+        lm_lines = []
+        if fields.get("product_name"):
+            lm_lines.append(
+                fields["product_name"]
+                if str(fields["product_name"]).lower().startswith("product")
+                else f"Product Name: {pname_cell}"
+            )
+        if fields.get("mrp"):
+            lm_lines.append(
+                fields["mrp"]
+                if str(fields["mrp"]).upper().startswith("MRP")
+                else f"MRP Rs. {mrp_cell}"
+            )
+        if fields.get("net_quantity"):
+            lm_lines.append(
+                fields["net_quantity"]
+                if "net" in str(fields["net_quantity"]).lower()
+                else f"Net Quantity: {qty_cell}"
+            )
+        if fields.get("manufacturer"):
+            lm_lines.append(
+                fields["manufacturer"]
+                if "manufactured" in str(fields["manufacturer"]).lower()
+                else f"Manufactured by: {mfg_cell}"
+            )
+        if fields.get("country_of_origin"):
+            lm_lines.append(fields["country_of_origin"])
+        if fields.get("manufacturing_date"):
+            lm_lines.append(fields["manufacturing_date"])
+        if fields.get("expiry_date"):
+            lm_lines.append(fields["expiry_date"])
+        if fields.get("customer_care"):
+            lm_lines.append(fields["customer_care"])
+        if fields.get("fssai"):
+            lm_lines.append(fields["fssai"])
 
-    lm_html = "".join(f"<p>{escape(str(line))}</p>" for line in lm_lines) if lm_lines else "<p>Limited information on this sparse listing.</p>"
+    lm_html = (
+        "".join(f"<p>{escape(str(line))}</p>" for line in lm_lines)
+        if lm_lines
+        else "<p>Limited information on this sparse listing.</p>"
+    )
 
     bullets = "".join(f"<li>{escape(b)}</li>" for b in p["bullets"])
     product_url = f"{base_url}/demo/dp/{p['slug']}"
@@ -263,8 +285,11 @@ def render_product(p: dict[str, Any], base_url: str = "http://127.0.0.1:5000") -
             <div class="price-block">
               <div class="deal">Limited demo deal</div>
               <div class="big"><span class="rupee">₹</span>{p['price']}</div>
-              <div class="tax-note">M.R.P.: <span style="text-decoration:line-through">₹{p['mrp']}</span>
-              &nbsp;·&nbsp; {escape(p['discount_note'])}</div>
+              <div class="tax-note">{
+                escape(p['discount_note'])
+                if p.get('regex_blind')
+                else f"M.R.P.: ₹{p['mrp']} · {escape(p['discount_note'])}"
+              }</div>
             </div>
             <div class="about">
               <b>About this item</b>

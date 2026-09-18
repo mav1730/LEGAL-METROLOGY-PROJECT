@@ -22,6 +22,7 @@ class SourceType(str, Enum):
     PAGE = "page"
     OCR = "ocr"
     MERGED = "merged"
+    NER = "ner"
     UNKNOWN = "unknown"
 
 

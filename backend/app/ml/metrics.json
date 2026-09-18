@@ -1,0 +1,246 @@
+{
+  "n_docs": 78,
+  "regex_only": {
+    "micro_precision": 0.9291,
+    "micro_recall": 0.2449,
+    "micro_f1": 0.3876,
+    "tp": 131,
+    "fp": 10,
+    "fn": 404,
+    "per_field": {
+      "product_name": {
+        "precision": 0.6552,
+        "recall": 0.2436,
+        "f1": 0.3551,
+        "tp": 19,
+        "fp": 10,
+        "fn": 59,
+        "support": 78
+      },
+      "mrp": {
+        "precision": 1.0,
+        "recall": 0.2692,
+        "f1": 0.4242,
+        "tp": 21,
+        "fp": 0,
+        "fn": 57,
+        "support": 78
+      },
+      "net_quantity": {
+        "precision": 1.0,
+        "recall": 0.2692,
+        "f1": 0.4242,
+        "tp": 21,
+        "fp": 0,
+        "fn": 57,
+        "support": 78
+      },
+      "manufacturer": {
+        "precision": 1.0,
+        "recall": 0.1282,
+        "f1": 0.2273,
+        "tp": 10,
+        "fp": 0,
+        "fn": 68,
+        "support": 78
+      },
+      "country_of_origin": {
+        "precision": 1.0,
+        "recall": 0.2703,
+        "f1": 0.4255,
+        "tp": 20,
+        "fp": 0,
+        "fn": 54,
+        "support": 74
+      },
+      "manufacturing_date": {
+        "precision": 1.0,
+        "recall": 0.2632,
+        "f1": 0.4167,
+        "tp": 20,
+        "fp": 0,
+        "fn": 56,
+        "support": 76
+      },
+      "expiry_date": {
+        "precision": 1.0,
+        "recall": 0.274,
+        "f1": 0.4301,
+        "tp": 20,
+        "fp": 0,
+        "fn": 53,
+        "support": 73
+      }
+    }
+  },
+  "ner_only": {
+    "micro_precision": 1.0,
+    "micro_recall": 0.985,
+    "micro_f1": 0.9925,
+    "tp": 527,
+    "fp": 0,
+    "fn": 8,
+    "per_field": {
+      "product_name": {
+        "precision": 1.0,
+        "recall": 0.9872,
+        "f1": 0.9935,
+        "tp": 77,
+        "fp": 0,
+        "fn": 1,
+        "support": 78
+      },
+      "mrp": {
+        "precision": 1.0,
+        "recall": 0.9872,
+        "f1": 0.9935,
+        "tp": 77,
+        "fp": 0,
+        "fn": 1,
+        "support": 78
+      },
+      "net_quantity": {
+        "precision": 1.0,
+        "recall": 0.9872,
+        "f1": 0.9935,
+        "tp": 77,
+        "fp": 0,
+        "fn": 1,
+        "support": 78
+      },
+      "manufacturer": {
+        "precision": 1.0,
+        "recall": 0.9872,
+        "f1": 0.9935,
+        "tp": 77,
+        "fp": 0,
+        "fn": 1,
+        "support": 78
+      },
+      "country_of_origin": {
+        "precision": 1.0,
+        "recall": 0.973,
+        "f1": 0.9863,
+        "tp": 72,
+        "fp": 0,
+        "fn": 2,
+        "support": 74
+      },
+      "manufacturing_date": {
+        "precision": 1.0,
+        "recall": 0.9868,
+        "f1": 0.9934,
+        "tp": 75,
+        "fp": 0,
+        "fn": 1,
+        "support": 76
+      },
+      "expiry_date": {
+        "precision": 1.0,
+        "recall": 0.9863,
+        "f1": 0.9931,
+        "tp": 72,
+        "fp": 0,
+        "fn": 1,
+        "support": 73
+      }
+    }
+  },
+  "hybrid": {
+    "micro_precision": 1.0,
+    "micro_recall": 0.9682,
+    "micro_f1": 0.9839,
+    "tp": 518,
+    "fp": 0,
+    "fn": 17,
+    "per_field": {
+      "product_name": {
+        "precision": 1.0,
+        "recall": 0.859,
+        "f1": 0.9241,
+        "tp": 67,
+        "fp": 0,
+        "fn": 11,
+        "support": 78
+      },
+      "mrp": {
+        "precision": 1.0,
+        "recall": 0.9872,
+        "f1": 0.9935,
+        "tp": 77,
+        "fp": 0,
+        "fn": 1,
+        "support": 78
+      },
+      "net_quantity": {
+        "precision": 1.0,
+        "recall": 0.9872,
+        "f1": 0.9935,
+        "tp": 77,
+        "fp": 0,
+        "fn": 1,
+        "support": 78
+      },
+      "manufacturer": {
+        "precision": 1.0,
+        "recall": 0.9872,
+        "f1": 0.9935,
+        "tp": 77,
+        "fp": 0,
+        "fn": 1,
+        "support": 78
+      },
+      "country_of_origin": {
+        "precision": 1.0,
+        "recall": 0.9865,
+        "f1": 0.9932,
+        "tp": 73,
+        "fp": 0,
+        "fn": 1,
+        "support": 74
+      },
+      "manufacturing_date": {
+        "precision": 1.0,
+        "recall": 0.9868,
+        "f1": 0.9934,
+        "tp": 75,
+        "fp": 0,
+        "fn": 1,
+        "support": 76
+      },
+      "expiry_date": {
+        "precision": 1.0,
+        "recall": 0.9863,
+        "f1": 0.9931,
+        "tp": 72,
+        "fp": 0,
+        "fn": 1,
+        "support": 73
+      }
+    }
+  },
+  "note": "Hybrid recall is higher than regex on manufacturer / origin / dates on this test split.",
+  "train_meta": {
+    "device": "cpu",
+    "base_model": "distilbert-base-uncased",
+    "train_docs": 343,
+    "val_docs": 73,
+    "test_docs": 78,
+    "trainer_test": {
+      "eval_loss": 0.02337007038295269,
+      "eval_precision": 0.9943074003795066,
+      "eval_recall": 0.9924242424242424,
+      "eval_f1": 0.9933649289099525,
+      "eval_runtime": 23.5468,
+      "eval_samples_per_second": 3.355,
+      "eval_steps_per_second": 0.849,
+      "epoch": 3.0
+    }
+  },
+  "seqeval": {
+    "precision": 0.9943074003795066,
+    "recall": 0.9924242424242424,
+    "f1": 0.9933649289099525,
+    "report": null
+  }
+}

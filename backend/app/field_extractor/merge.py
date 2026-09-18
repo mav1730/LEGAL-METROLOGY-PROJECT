@@ -23,9 +23,30 @@ from .models import (
 )
 from .patterns import FIELD_ORDER
 
+# NER-only acceptances are capped so they stay "medium" vs regex hits.
+_NER_MEDIUM_CAP = 0.78
+
 
 def _norm_key(field: ExtractedField) -> str:
     return (field.normalized_value or field.value or "").strip().lower()
+
+
+def _same_value(a: ExtractedField, b: ExtractedField) -> bool:
+    ka, kb = _norm_key(a), _norm_key(b)
+    if not ka or not kb:
+        return False
+    if ka == kb:
+        return True
+    # "aerofit apparels ltd" vs the same name plus address
+    shorter, longer = (ka, kb) if len(ka) <= len(kb) else (kb, ka)
+    if len(shorter) >= 10 and shorter in longer:
+        return True
+    return False
+
+
+def _prefer_richer(a: ExtractedField, b: ExtractedField) -> ExtractedField:
+    ka, kb = _norm_key(a), _norm_key(b)
+    return b if len(kb) > len(ka) else a
 
 
 def _is_positive(field: ExtractedField) -> bool:
@@ -169,3 +190,176 @@ def extract_and_merge(
         return extract_fields("", source=SourceType.MERGED, fields=fields)
 
     return merge_fields(page_r, ocr_r, fields=fields)
+
+
+def merge_regex_ner(
+    regex_result: ExtractionResult,
+    ner_result: ExtractionResult,
+    fields: Optional[list[str]] = None,
+) -> ExtractionResult:
+    """Hybrid merge: regex is precision-first; NER is a fallback, never a silent override.
+
+    Policy:
+      * regex already AMBIGUOUS → keep ambiguous (human review)
+      * both DETECTED, same normalized value → keep, high confidence
+      * regex miss + NER hit → accept NER, medium confidence
+      * both DETECTED, different values → AMBIGUOUS, value None
+      * regex hit + NER miss → keep regex
+      * both miss → not_detected
+    """
+    target = fields or FIELD_ORDER
+    merged: dict[str, ExtractedField] = {}
+    warnings: list[str] = list(regex_result.warnings) + list(ner_result.warnings)
+
+    for name in target:
+        rx = regex_result.fields.get(name) or empty_field(
+            name, "Missing from regex extraction"
+        )
+        nw = ner_result.fields.get(name) or empty_field(
+            name, "Missing from NER extraction"
+        )
+
+        if rx.status == FieldStatus.AMBIGUOUS:
+            merged[name] = rx
+            continue
+
+        rx_ok = _is_positive(rx)
+        nw_ok = _is_positive(nw)
+
+        if rx_ok and nw_ok:
+            if _same_value(rx, nw):
+                keep = _prefer_richer(rx, nw)
+                boosted = min(0.99, max(rx.confidence, nw.confidence) + 0.04)
+                evidence = Evidence(
+                    source=SourceType.MERGED,
+                    matched_text=(
+                        f"regex: {rx.evidence.matched_text if rx.evidence else rx.value}"
+                        f" | ner: {nw.evidence.matched_text if nw.evidence else nw.value}"
+                    ),
+                    start=keep.evidence.start if keep.evidence else 0,
+                    end=keep.evidence.end if keep.evidence else 0,
+                    pattern_id=(
+                        f"hybrid_agree:"
+                        f"{rx.evidence.pattern_id if rx.evidence else 'regex'}+"
+                        f"{nw.evidence.pattern_id if nw.evidence else 'ner'}"
+                    ),
+                )
+                merged[name] = ExtractedField(
+                    name=name,
+                    value=keep.value,
+                    normalized_value=keep.normalized_value or rx.normalized_value or nw.normalized_value,
+                    unit=keep.unit or rx.unit or nw.unit,
+                    status=FieldStatus.DETECTED,
+                    confidence=boosted,
+                    evidence=evidence,
+                    reason="Regex and NER agree",
+                )
+            else:
+                alts = []
+                for f in (rx, nw):
+                    v = f.normalized_value or f.value
+                    if v and v not in alts:
+                        alts.append(v)
+                merged[name] = ExtractedField(
+                    name=name,
+                    value=None,
+                    normalized_value=None,
+                    status=FieldStatus.AMBIGUOUS,
+                    confidence=max(rx.confidence, nw.confidence),
+                    evidence=rx.evidence or nw.evidence,
+                    alternatives=alts,
+                    reason=(
+                        f"Regex and NER disagree for {name.replace('_', ' ')} "
+                        f"(regex={rx.value!r}, ner={nw.value!r}); "
+                        f"human review required"
+                    ),
+                )
+            continue
+
+        if rx_ok:
+            merged[name] = rx
+            continue
+
+        if nw_ok:
+            medium = min(_NER_MEDIUM_CAP, max(0.55, nw.confidence))
+            evidence = nw.evidence
+            if evidence is None:
+                evidence = Evidence(
+                    source=SourceType.NER,
+                    matched_text=nw.value or "",
+                    start=0,
+                    end=0,
+                    pattern_id="ner",
+                )
+            merged[name] = ExtractedField(
+                name=name,
+                value=nw.value,
+                normalized_value=nw.normalized_value,
+                unit=nw.unit,
+                status=FieldStatus.DETECTED,
+                confidence=medium,
+                evidence=evidence,
+                reason="Regex miss; accepted NER span",
+            )
+            continue
+
+        if nw.status == FieldStatus.AMBIGUOUS:
+            merged[name] = nw
+            continue
+
+        merged[name] = empty_field(
+            name,
+            reason=(
+                f"Required field not detected by regex or NER "
+                f"(regex: {rx.reason}; ner: {nw.reason})"
+            ),
+        )
+
+    combined_raw = regex_result.raw_text or ner_result.raw_text
+    return ExtractionResult(
+        fields=merged,
+        raw_text=combined_raw,
+        source=SourceType.MERGED,
+        warnings=warnings,
+    )
+
+
+def extract_with_mode(
+    page_text: str = "",
+    ocr_text: str = "",
+    fields: Optional[list[str]] = None,
+    mode: Optional[str] = None,
+) -> ExtractionResult:
+    """Run regex, NER, or hybrid based on EXTRACTOR_MODE.
+
+    Missing NER weights → fall back to regex (with a warning). Never downloads.
+    """
+    try:
+        from app.config import EXTRACTOR_MODE as CFG_MODE
+    except Exception:  # noqa: BLE001
+        CFG_MODE = "hybrid"
+
+    mode_s = (mode or CFG_MODE or "hybrid").strip().lower()
+    if mode_s not in {"regex", "ner", "hybrid"}:
+        mode_s = "hybrid"
+
+    regex_result = extract_and_merge(page_text, ocr_text, fields=fields)
+    if mode_s == "regex":
+        return regex_result
+
+    from .ner_extractor import extract_fields_ner, ner_available
+
+    combined = "\n".join(
+        part for part in (page_text or "", ocr_text or "") if (part or "").strip()
+    )
+    if not ner_available():
+        regex_result.warnings.append(
+            "NER model not available; using regex only "
+            f"(EXTRACTOR_MODE={mode_s})"
+        )
+        return regex_result
+
+    ner_result = extract_fields_ner(combined, fields=fields)
+    if mode_s == "ner":
+        return ner_result
+    return merge_regex_ner(regex_result, ner_result, fields=fields)

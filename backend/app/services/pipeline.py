@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from app.config import SYSTEM_DISCLAIMER, UPLOAD_DIR, ensure_dirs
-from app.field_extractor import extract_and_merge
+from app.field_extractor import extract_with_mode
 from app.field_extractor.patterns import FIELD_ORDER
 from app.services import samples as sample_store
 from app.services.ocr_service import run_ocr
@@ -44,7 +44,7 @@ def run_text_scan(
     extra: Optional[dict[str, Any]] = None,
 ) -> dict[str, Any]:
     """Core path used by URL / image / sample / raw-text scans."""
-    extraction = extract_and_merge(page_text=page_text or "", ocr_text=ocr_text or "")
+    extraction = extract_with_mode(page_text=page_text or "", ocr_text=ocr_text or "")
     fields = _fields_as_list(extraction)
     evaluation = evaluate_rules(fields)
 
@@ -93,7 +93,9 @@ def scan_url(
     Optional ``html``: if the marketplace blocks the server, the user can paste
     View-Source / saved page HTML from their browser and still attach the real URL.
     """
-    url = (url or "").strip()
+    from app.services.scraper import normalize_product_url
+
+    url = normalize_product_url(url or "")
     html = (html or "").strip()
 
     if html:
@@ -108,9 +110,17 @@ def scan_url(
         }
 
     if not scraped.get("ok"):
+        blocked = bool(
+            scraped.get("error_code") == "marketplace_blocked"
+            or (scraped.get("raw_meta") or {}).get("blocked")
+        )
+        err = scraped.get("error") or "Scrape failed"
+        if blocked:
+            err = "Marketplace blocked automated access (CAPTCHA / bot wall)."
         return {
             "ok": False,
-            "error": scraped.get("error") or "Scrape failed",
+            "error": err,
+            "error_code": "marketplace_blocked" if blocked else scraped.get("error_code"),
             "scrape": {
                 "ok": False,
                 "platform": scraped.get("platform"),
@@ -119,10 +129,9 @@ def scan_url(
                 "raw_meta": scraped.get("raw_meta"),
             },
             "hint": (
-                "If Amazon/Flipkart blocked the server: open the product in Chrome → "
-                "select Product details text (or Save page HTML) → paste in the "
-                "URL tab 'Page HTML / details' box with the real product URL. "
-                "Or use DemoMart links (always work): http://127.0.0.1:5000/demo/"
+                "Amazon, Flipkart, and Zepto block automated scrapers on purpose. "
+                "That is their security, not a broken demo. Open the product in your "
+                "own browser and paste Product details, or use DemoMart."
             ),
             "fallback": {
                 "demomart": "http://127.0.0.1:5000/demo/",

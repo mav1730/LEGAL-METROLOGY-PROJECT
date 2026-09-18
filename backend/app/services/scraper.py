@@ -28,6 +28,20 @@ USER_AGENT = (
 )
 TIMEOUT = 20
 
+
+def normalize_product_url(url: str) -> str:
+    """Accept messy pastes: missing scheme, www-only, or /demo/... paths."""
+    u = (url or "").strip().strip('"').strip("'")
+    if not u:
+        return ""
+    if u.startswith("/demo/"):
+        return "http://127.0.0.1:5000" + u
+    if re.match(r"^(127\.0\.0\.1|localhost)(:\d+)?(/|$)", u, re.I):
+        return "http://" + u
+    if not re.match(r"^https?://", u, re.I):
+        return "https://" + u.lstrip("/")
+    return u
+
 BROWSER_HEADERS = {
     "User-Agent": USER_AGENT,
     "Accept": (
@@ -341,10 +355,9 @@ def parse_html_to_product(
 
     if _looks_blocked(html, title):
         result["error"] = (
-            "Marketplace blocked automated access (CAPTCHA / bot wall). "
-            "Open the product in your browser, copy Product details text, "
-            "and use Paste text — or use DemoMart local product links."
+            "Marketplace blocked automated access (CAPTCHA / bot wall)."
         )
+        result["error_code"] = "marketplace_blocked"
         result["raw_meta"]["blocked"] = True
         return result
 
@@ -484,11 +497,14 @@ def scrape_product_url(url: str, use_browser: bool = True) -> dict[str, Any]:
         "raw_meta": {},
     }
 
-    if not url or not re.match(r"^https?://", url.strip(), re.I):
-        result["error"] = "Invalid URL — must start with http:// or https://"
+    url = normalize_product_url(url)
+    result["source_url"] = url
+    result["platform"] = _platform_from_url(url) if url else "unknown"
+
+    if not url or not re.match(r"^https?://", url, re.I):
+        result["error"] = "Invalid URL — paste a full product link (http:// or https://)"
         return result
 
-    url = url.strip()
     html, err, status = _fetch_http(url)
     methods_tried = ["http"]
 
@@ -505,8 +521,16 @@ def scrape_product_url(url: str, use_browser: bool = True) -> dict[str, Any]:
         result["error"] = err
         result["raw_meta"]["http_status"] = status
 
-    # Playwright fallback for JS / soft blocks
-    if use_browser:
+    # Playwright: skip localhost (DemoMart is already HTML), skip hard blocks
+    # (CAPTCHA / 403 / 404) so the UI does not spin 45s and look "broken".
+    host = (urlparse(url).hostname or "").lower()
+    local = host in {"127.0.0.1", "localhost"}
+    blocked = bool(
+        result.get("error_code") == "marketplace_blocked"
+        or (result.get("raw_meta") or {}).get("blocked")
+    )
+    hard_http = status in {401, 403, 404, 410, 429, 451}
+    if use_browser and not local and not blocked and not hard_http:
         html2, err2 = _fetch_playwright(url)
         methods_tried.append("playwright")
         if err2 == "playwright_not_installed":

@@ -8,8 +8,17 @@ export default function ScanPanel({ samples, onScan, loading }) {
   const [ocrText, setOcrText] = useState("");
   const [file, setFile] = useState(null);
 
+  const normalizeUrl = (raw) => {
+    const u = (raw || "").trim().replace(/^['"]|['"]$/g, "");
+    if (!u) return "";
+    if (u.startsWith("/demo/")) return `http://127.0.0.1:5000${u}`;
+    if (/^(127\.0\.0\.1|localhost)/i.test(u)) return `http://${u}`;
+    if (!/^https?:\/\//i.test(u)) return `https://${u}`;
+    return u;
+  };
+
   const submit = async () => {
-    if (tab === "url") await onScan({ type: "url", url, html: pageHtml });
+    if (tab === "url") await onScan({ type: "url", url: normalizeUrl(url), html: pageHtml });
     else if (tab === "text")
       await onScan({ type: "text", page_text: pageText, ocr_text: ocrText });
     else if (tab === "image") await onScan({ type: "image", file });
@@ -49,11 +58,17 @@ export default function ScanPanel({ samples, onScan, loading }) {
           <div className="url-input-wrapper">
             <input
               id="url"
-              type="url"
+              type="text"
               className="url-input-large"
-              placeholder="https://www.amazon.in/.../dp/XXXXXXXX  or  http://127.0.0.1:5000/demo/dp/..."
+              placeholder="Paste a DemoMart / Amazon / Flipkart product link"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  submit();
+                }
+              }}
             />
             <button
               type="button"

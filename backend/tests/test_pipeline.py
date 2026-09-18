@@ -38,12 +38,45 @@ def client(tmp_path, monkeypatch):
         yield c
 
 
+def test_normalize_product_url():
+    from app.services.scraper import normalize_product_url
+
+    assert normalize_product_url("www.amazon.in/dp/B00X") == "https://www.amazon.in/dp/B00X"
+    assert normalize_product_url("/demo/dp/hive-organic-honey-500g").startswith(
+        "http://127.0.0.1:5000/demo/"
+    )
+    assert normalize_product_url("http://127.0.0.1:5000/demo/dp/x").startswith("http://")
+
+
 def test_health(client):
     r = client.get("/api/health")
     assert r.status_code == 200
     data = r.get_json()
     assert data["ok"] is True
     assert "disclaimer" in data or True
+
+
+def test_mrp_does_not_truncate_1169():
+    from app.field_extractor.extractors import extract_fields
+    from app.field_extractor.models import FieldStatus
+
+    r = extract_fields("Product Name: Shirt MRP Rs. 1169 (Incl. of all taxes) Net Quantity: 1 Piece")
+    assert r.fields["mrp"].status == FieldStatus.DETECTED
+    assert r.fields["mrp"].normalized_value == "1169"
+
+
+def test_country_stops_before_packing_date():
+    from app.field_extractor.extractors import extract_fields
+    from app.field_extractor.models import FieldStatus
+
+    text = (
+        "Country of Origin: India Month & Year of Packing: 01/2025 "
+        "Manufactured by: AeroFit Apparels Ltd"
+    )
+    r = extract_fields(text)
+    assert r.fields["country_of_origin"].status == FieldStatus.DETECTED
+    assert r.fields["country_of_origin"].value == "India"
+    assert r.fields["manufacturing_date"].status == FieldStatus.DETECTED
 
 
 def test_scan_sample_complete(client):
@@ -127,6 +160,22 @@ def test_list_and_get_product(client):
     pid = lst["products"][0]["id"]
     one = client.get(f"/api/products/{pid}").get_json()
     assert one["product"]["id"] == pid
+
+
+def test_marketplace_blocked_returns_error_code(client):
+    html = (
+        "<html><head><title>Robot Check</title></head>"
+        "<body>validatecaptcha sorry we just need to make sure you're not a robot</body></html>"
+    )
+    r = client.post(
+        "/api/scan/url",
+        json={"url": "https://www.amazon.in/dp/B00FAKEBLOCK", "html": html},
+    )
+    data = r.get_json()
+    assert data["ok"] is False
+    assert data.get("error_code") == "marketplace_blocked"
+    assert "blocked" in (data.get("error") or "").lower()
+    assert data.get("fallback", {}).get("demomart")
 
 
 def test_scan_url_with_pasted_html_real_link_style(client):

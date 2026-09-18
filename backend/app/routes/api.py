@@ -6,8 +6,10 @@ from pathlib import Path
 
 from flask import Blueprint, jsonify, request, send_file
 
-from app.config import SYSTEM_DISCLAIMER
+from app.config import EXTRACTOR_MODE, SYSTEM_DISCLAIMER
+from app.demo_store.catalog import public_catalog
 from app.services import samples as sample_store
+from app.field_extractor.ner_extractor import ner_available
 from app.services.ocr_service import tesseract_available
 from app.services.pipeline import scan_image, scan_raw_text, scan_sample, scan_url
 from app.services.reports import generate_json_report, generate_pdf_report
@@ -45,6 +47,8 @@ def health():
             "service": "legal-metrology-compliance-checker",
             "ocr_tesseract_available": tesseract_available(),
             "playwright_available": playwright_available(),
+            "ner_available": ner_available(),
+            "extractor_mode": EXTRACTOR_MODE,
             "demomart": "http://127.0.0.1:5000/demo/",
             "version": "1.0.0",
         }
@@ -64,6 +68,12 @@ def rules():
 @api_bp.get("/samples")
 def samples_list():
     return _ok({"ok": True, "samples": sample_store.list_samples()})
+
+
+@api_bp.get("/demo/catalog")
+def demo_catalog():
+    """DemoMart product URLs + regex-blind flags for the dashboard."""
+    return _ok({"ok": True, "products": public_catalog()})
 
 
 @api_bp.post("/scan/url")
