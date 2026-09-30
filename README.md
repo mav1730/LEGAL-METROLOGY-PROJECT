@@ -41,6 +41,7 @@ Decision-support web app that screens e-commerce product listings / packaging fo
 | [docs/03-regex-and-ai.md](docs/03-regex-and-ai.md) | Regex vs DistilBERT NER vs rules |
 | [docs/04-start-by-yourself.md](docs/04-start-by-yourself.md) | Start the site with no AI assistant |
 | [docs/05-demo-script-and-limits.md](docs/05-demo-script-and-limits.md) | Viva script and honest limits |
+| [docs/06-maintenance-log.md](docs/06-maintenance-log.md) | Dated hygiene / what changed when |
 
 ---
 
