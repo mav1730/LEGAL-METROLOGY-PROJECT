@@ -84,7 +84,7 @@ def render_home(base_url: str = "http://127.0.0.1:5000") -> str:
               <div class="stars">{_stars(p['rating'])}<span>{p['reviews']:,}</span></div>
               <div class="price-row">
                 <span class="symbol">₹</span><span class="amount">{p['price']}</span>
-                {'' if p.get('regex_blind') else f'<span class="mrp-strike">M.R.P: ₹{p["mrp"]}</span>'}
+                {f'<span class="mrp-strike">M.R.P: ₹{p["mrp"]}</span>' if p.get('mrp') else ''}
               </div>
               <div class="prime">Demo Delivery</div>
               <div style="font-size:11px;color:#565959;margin-top:6px;">{escape(p['scenario_label'])}</div>
@@ -286,9 +286,9 @@ def render_product(p: dict[str, Any], base_url: str = "http://127.0.0.1:5000") -
               <div class="deal">Limited demo deal</div>
               <div class="big"><span class="rupee">₹</span>{p['price']}</div>
               <div class="tax-note">{
-                escape(p['discount_note'])
-                if p.get('regex_blind')
-                else f"M.R.P.: ₹{p['mrp']} · {escape(p['discount_note'])}"
+                f"M.R.P.: ₹{p['mrp']} · {escape(p['discount_note'])}"
+                if p.get('mrp')
+                else escape(p['discount_note'])
               }</div>
             </div>
             <div class="about">

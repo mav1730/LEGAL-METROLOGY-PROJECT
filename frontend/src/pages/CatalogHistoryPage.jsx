@@ -320,7 +320,10 @@ export default function CatalogHistoryPage({
                         {status === "clear_in_available_data" ? "PASSED (100%)" : "POTENTIAL ISSUE"}
                       </span>
                       <span className="catalog-brand" style={{ fontSize: "0.85rem" }}>Brand: <strong>{item.brand}</strong></span>
-                      <span className="catalog-mrp" style={{ fontSize: "0.95rem" }}>MRP: <strong>₹{item.mrp.toLocaleString()}</strong></span>
+                      <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+                        <span style={{ fontSize: "0.88rem", color: "var(--text-muted, #64748b)" }}>Store: <strong style={{ color: "var(--text-main, #0f172a)" }}>₹{item.price?.toLocaleString()}</strong></span>
+                        <span className="catalog-mrp" style={{ fontSize: "0.95rem" }}>MRP: <strong>₹{item.mrp.toLocaleString()}</strong></span>
+                      </div>
                     </div>
                   </div>
 
