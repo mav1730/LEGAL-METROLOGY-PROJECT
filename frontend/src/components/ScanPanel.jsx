@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { backendOrigin } from "../site";
 
 export default function ScanPanel({ samples, onScan, loading }) {
   const [tab, setTab] = useState("url");
@@ -11,7 +12,9 @@ export default function ScanPanel({ samples, onScan, loading }) {
   const normalizeUrl = (raw) => {
     const u = (raw || "").trim().replace(/^['"]|['"]$/g, "");
     if (!u) return "";
-    if (u.startsWith("/demo/")) return `http://127.0.0.1:5000${u}`;
+    if (u === "/demo" || u.startsWith("/demo/") || u.startsWith("/demo?")) {
+      return `${backendOrigin()}${u}`;
+    }
     if (/^(127\.0\.0\.1|localhost)/i.test(u)) return `http://${u}`;
     if (!/^https?:\/\//i.test(u)) return `https://${u}`;
     return u;

@@ -53,6 +53,38 @@ SYSTEM_DISCLAIMER = (
 )
 
 
+def local_base() -> str:
+    """Address this process can use to fetch its own DemoMart pages."""
+    host = "127.0.0.1" if HOST in {"0.0.0.0", "::"} else HOST
+    return f"http://{host}:{PORT}"
+
+
+def public_base() -> str:
+    """Origin the visitor used. Falls back to this machine when there is no request."""
+    try:
+        from flask import has_request_context, request
+
+        if has_request_context():
+            return request.url_root.rstrip("/")
+    except Exception:
+        pass
+    return local_base()
+
+
+def dashboard_href() -> str:
+    """Live Vite app on this machine. Any other host gets the same-origin dashboard."""
+    try:
+        from flask import has_request_context, request
+
+        if has_request_context():
+            host = (request.host or "").split(":")[0].strip().lower()
+            if host and host not in {"127.0.0.1", "localhost"}:
+                return "/"
+    except Exception:
+        pass
+    return "http://127.0.0.1:5173/"
+
+
 def ensure_dirs() -> None:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     UPLOAD_DIR.mkdir(parents=True, exist_ok=True)

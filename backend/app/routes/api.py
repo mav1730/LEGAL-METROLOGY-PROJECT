@@ -6,7 +6,7 @@ from pathlib import Path
 
 from flask import Blueprint, jsonify, request, send_file
 
-from app.config import EXTRACTOR_MODE, SYSTEM_DISCLAIMER
+from app.config import EXTRACTOR_MODE, SYSTEM_DISCLAIMER, public_base
 from app.demo_store.catalog import public_catalog
 from app.services import samples as sample_store
 from app.field_extractor.ner_extractor import ner_available
@@ -49,7 +49,7 @@ def health():
             "playwright_available": playwright_available(),
             "ner_available": ner_available(),
             "extractor_mode": EXTRACTOR_MODE,
-            "demomart": "http://127.0.0.1:5000/demo/",
+            "demomart": public_base() + "/demo/",
             "version": "1.0.0",
         }
     )
@@ -73,7 +73,7 @@ def samples_list():
 @api_bp.get("/demo/catalog")
 def demo_catalog():
     """DemoMart product URLs + regex-blind flags for the dashboard."""
-    return _ok({"ok": True, "products": public_catalog()})
+    return _ok({"ok": True, "products": public_catalog(public_base())})
 
 
 @api_bp.post("/scan/url")

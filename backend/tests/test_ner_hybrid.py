@@ -234,6 +234,7 @@ def test_demo_catalog_lists_regex_blind(client):
     assert len(blind) == len(REGEX_BLIND_SKUS)
     honey = next(p for p in products if p["slug"] == "hive-organic-honey-500g")
     assert honey["regex_blind"] is False
+    assert honey["url"].startswith("http://localhost/demo/dp/hive-organic-honey-500g")
 
 
 def test_health_exposes_ner_keys(client):

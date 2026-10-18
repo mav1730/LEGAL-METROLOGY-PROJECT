@@ -6,6 +6,7 @@ from html import escape
 from typing import Any
 from urllib.parse import quote
 
+from app.config import dashboard_href
 from app.demo_store.catalog import list_products
 
 
@@ -13,7 +14,7 @@ def _stars(rating: float) -> str:
     full = int(rating)
     half = 1 if rating - full >= 0.4 else 0
     empty = 5 - full - half
-    return "★" * full + (" trace" if half else "") + "☆" * empty
+    return "★" * full + ("½" if half else "") + "☆" * empty
 
 
 def layout(title: str, body: str, active: str = "home") -> str:
@@ -52,7 +53,7 @@ def layout(title: str, body: str, active: str = "home") -> str:
     <a href="/demo/">Grocery</a>
     <a href="/demo/#products">Today's Deals</a>
     <a href="/demo/products">All Products</a>
-    <a href="http://127.0.0.1:5173/" target="_blank" rel="noopener">Open Compliance Checker →</a>
+    <a href="{escape(dashboard_href())}">Open Compliance Checker →</a>
   </nav>
   {body}
   <footer class="footer">
@@ -104,7 +105,7 @@ def render_home(base_url: str = "http://127.0.0.1:5000") -> str:
         </p>
         <div class="scan-hint">
           <b>How to test:</b> Copy a product link below → open
-          <a href="http://127.0.0.1:5173/" target="_blank" rel="noopener">Compliance Dashboard</a>
+          <a href="{escape(dashboard_href())}">Compliance Dashboard</a>
           → <b>Product URL</b> → paste → Scan.<br/>
           Example:
           <code>{escape(base_url)}/demo/dp/hive-organic-honey-500g</code>

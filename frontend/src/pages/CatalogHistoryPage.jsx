@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import DEMOMART_CATALOG from "../data/demomartCatalog";
+import { backendOrigin } from "../site";
 
 const CATEGORIES = [
   "All",
@@ -232,7 +233,7 @@ export default function CatalogHistoryPage({
             {selectedCategory !== "All" && activeTab === "catalog" && ` in [${selectedCategory}]`}
           </p>
           <a
-            href="http://127.0.0.1:5000/demo/"
+            href={`${backendOrigin()}/demo/`}
             target="_blank"
             rel="noreferrer"
             className="demomart-store-link"

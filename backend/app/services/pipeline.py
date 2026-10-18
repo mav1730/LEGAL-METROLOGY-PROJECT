@@ -6,8 +6,9 @@ import shutil
 import uuid
 from pathlib import Path
 from typing import Any, Optional
+from urllib.parse import urlparse
 
-from app.config import SYSTEM_DISCLAIMER, UPLOAD_DIR, ensure_dirs
+from app.config import SYSTEM_DISCLAIMER, UPLOAD_DIR, ensure_dirs, public_base
 from app.field_extractor import extract_with_mode
 from app.field_extractor.patterns import FIELD_ORDER
 from app.services import samples as sample_store
@@ -134,18 +135,19 @@ def scan_url(
                 "own browser and paste Product details, or use DemoMart."
             ),
             "fallback": {
-                "demomart": "http://127.0.0.1:5000/demo/",
+                "demomart": public_base() + "/demo/",
                 "paste_html": True,
                 "paste_text_tab": True,
             },
             "disclaimer": SYSTEM_DISCLAIMER,
         }
 
+    stored_url = _visitor_demo_url(url or scraped.get("source_url") or "")
     result = run_text_scan(
         page_text=scraped.get("page_text") or "",
         ocr_text="",
         name=scraped.get("title") or "",
-        source_url=url or scraped.get("source_url"),
+        source_url=stored_url or None,
         platform=scraped.get("platform") or "web",
         input_type="url" if not html else "url_html",
         image_paths=scraped.get("image_urls") or [],
@@ -241,6 +243,16 @@ def scan_raw_text(page_text: str = "", ocr_text: str = "", name: str = "") -> di
     return result
 
 
+def _visitor_demo_url(url: str) -> str:
+    """Rewrite a localhost DemoMart link to the host the visitor is actually using."""
+    if not url:
+        return ""
+    parsed = urlparse(url)
+    if parsed.hostname in {"127.0.0.1", "localhost"} and (parsed.path or "").startswith("/demo"):
+        return public_base() + parsed.path
+    return url
+
+
 def scan_sample(sample_id: str) -> dict[str, Any]:
     sample = sample_store.get_sample(sample_id)
     if not sample:
@@ -254,7 +266,8 @@ def scan_sample(sample_id: str) -> dict[str, Any]:
         page_text=sample.get("page_text") or "",
         ocr_text=sample.get("ocr_text") or "",
         name=sample.get("name") or sample_id,
-        source_url=sample.get("source_url") or f"demo://samples/{sample_id}",
+        source_url=_visitor_demo_url(sample.get("source_url") or "")
+        or f"demo://samples/{sample_id}",
         platform=sample.get("platform") or "Demo",
         input_type="sample",
         extra={"sample_id": sample_id, "description": sample.get("description")},

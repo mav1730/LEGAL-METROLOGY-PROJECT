@@ -46,55 +46,84 @@ Decision-support web app that screens e-commerce product listings / packaging fo
 
 ## Quick start
 
-**One command** (opens backend + frontend windows):
+Two programs. Leave both running. The dashboard on port **5173** proxies `/api` to Flask on port **5000**.
+
+| | URL |
+|--|-----|
+| Dashboard | http://127.0.0.1:5173/ |
+| DemoMart | http://127.0.0.1:5000/demo/ |
+| Health | http://127.0.0.1:5000/api/health |
+
+Health should show `"ok": true` and `"extractor_mode": "hybrid"`. Click-path with no assistant: [docs/04-start-by-yourself.md](docs/04-start-by-yourself.md).
+
+### This computer
+
+From the project folder:
 
 ```powershell
 .\START-EVERYTHING.ps1
 ```
 
-Then open http://127.0.0.1:5173/  and  http://127.0.0.1:5000/api/health  
-`ner_available` must be `true` for the NER demo. Full click-path: [docs/04-start-by-yourself.md](docs/04-start-by-yourself.md).
+Two windows open (backend, then frontend). Do not close them. On this PC the script uses `D:\legal-metrology\venv` when that folder exists, so `ner_available` is `true`. If health says `ner_available: false`, close the backend window and run `D:\legal-metrology\scripts\start-backend.ps1`. One-time repair of that D: setup: `D:\legal-metrology\scripts\setup-d-drive.ps1`.
 
-### 1. Backend (uses D: for venv + Chromium + DB)
+You can also start the pieces yourself: `.\start-backend.ps1` and, in a second window, `.\start-frontend.ps1`.
 
-Heavy runtime is on **D:\legal-metrology** so C: is not filled with browsers (~700 MB Chromium).
+### Fresh clone (any Windows PC)
+
+You need Python 3.11+ and Node.js.
 
 ```powershell
-# Preferred — D: Python venv + Playwright browsers
-D:\legal-metrology\scripts\start-backend.ps1
+git clone https://github.com/mav1730/LEGAL-METROLOGY-PROJECT.git
+cd LEGAL-METROLOGY-PROJECT
 
-# Or from project root (auto-uses D: if present)
-.\start-backend.ps1
+cd backend
+py -3 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+py -3 -m pip install -r requirements.txt
+py -3 run.py
 ```
 
-One-time repair of D: setup:
+Second terminal, from the cloned folder:
 
 ```powershell
-D:\legal-metrology\scripts\setup-d-drive.ps1
-```
-
-API: http://127.0.0.1:5000  
-Health: http://127.0.0.1:5000/api/health — check `ner_available: true` and `extractor_mode: hybrid`  
-DemoMart: http://127.0.0.1:5000/demo/
-
-### 2. Frontend
-
-```powershell
-cd C:\Users\admin\Documents\legal-metrology-compliance-checker\frontend
+cd frontend
 npm install
 npm run dev
 ```
 
-UI: http://127.0.0.1:5173  
-Vite proxies `/api` → Flask.
+Open http://127.0.0.1:5173/ . Copy `backend/.env.example` to `backend/.env` only if you want another port or data folder. The defaults already listen on `127.0.0.1:5000`.
 
-### 3. Tests
+GitHub does not include the DistilBERT weights (`backend/app/ml/ner_model/model.safetensors`, about 253 MB). Regex extraction, DemoMart, the rule engine, and PDF reports work without them. Health then reports `ner_available: false`, and hybrid mode uses regex only. To turn NER on, follow [Optional: trained NER](#optional-trained-ner), or copy an existing weights file into `backend/app/ml/ner_model/`.
+
+### One URL (optional)
+
+Build the dashboard once. Flask then serves it at http://127.0.0.1:5000/ next to the API and DemoMart:
 
 ```powershell
-cd backend
-py -3 -m pip install pytest
-py -3 -m pytest -q
+cd frontend
+npm install
+npm run build
 ```
+
+Restart the backend. After that build, `/` is the dashboard and `GET /api/about` is the JSON service card. Day-to-day edits still use `npm run dev` on port **5173** so the page matches the source. Port 5174 is only a fallback when 5173 is already taken. Do not treat an empty 5174 tab as the app.
+
+### Tests
+
+From the repo root. Torch is not required.
+
+```powershell
+py -3 -m pip install pytest
+py -3 -m pytest backend/tests -q
+```
+
+Expect **25 passed**.
+
+### First scans
+
+1. Honey (regex, high score): http://127.0.0.1:5000/demo/dp/hive-organic-honey-500g
+2. Atta (paraphrased labels; hybrid NER fills them when the model is loaded): http://127.0.0.1:5000/demo/dp/golden-grain-atta-5kg
+
+A real Amazon or Flipkart URL that returns **422** with `marketplace_blocked` is the site's bot wall. Paste the product text, or stay on DemoMart.
 
 ---
 
@@ -188,9 +217,11 @@ legal-metrology-compliance-checker/
     run.py
   frontend/
     src/App.jsx
+    src/pages/
     src/components/
+  START-EVERYTHING.ps1
   README.md
-  docs/PROJECT_SPEC.md
+  docs/04-start-by-yourself.md
 ```
 
 ---
@@ -223,7 +254,7 @@ Then set the extractor (default is already hybrid):
 $env:EXTRACTOR_MODE = "hybrid"   # regex | ner | hybrid
 ```
 
-- Weights load once from `backend/app/ml/ner_model/` with `local_files_only=True`.
+- Weights load once from `backend/app/ml/ner_model/` with `local_files_only=True`. The `.safetensors` file is gitignored and is not on GitHub.
 - No model → hybrid falls back to regex; `/api/health` reports `ner_available: false`.
 - CI / laptops: `SKIP_NER_TRAIN=1` skips the DistilBERT run. Pytest does not need torch.
 - Metrics: `backend/app/ml/RESULTS.md` (regex_only / ner_only / hybrid on the same test texts).

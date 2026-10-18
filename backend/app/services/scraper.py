@@ -29,13 +29,29 @@ USER_AGENT = (
 TIMEOUT = 20
 
 
+def _demo_fetch_url(url: str) -> str:
+    """DemoMart is served by this process. Fetch it locally even if the visitor used a public host."""
+    from app.config import local_base
+
+    parsed = urlparse(url)
+    path = parsed.path or ""
+    if path == "/demo" or path.startswith("/demo/"):
+        fetch = local_base() + path
+        if parsed.query:
+            fetch += "?" + parsed.query
+        return fetch
+    return url
+
+
 def normalize_product_url(url: str) -> str:
     """Accept messy pastes: missing scheme, www-only, or /demo/... paths."""
+    from app.config import public_base
+
     u = (url or "").strip().strip('"').strip("'")
     if not u:
         return ""
-    if u.startswith("/demo/"):
-        return "http://127.0.0.1:5000" + u
+    if u.startswith("/demo/") or u == "/demo":
+        return public_base() + (u if u.startswith("/") else "/" + u)
     if re.match(r"^(127\.0\.0\.1|localhost)(:\d+)?(/|$)", u, re.I):
         return "http://" + u
     if not re.match(r"^https?://", u, re.I):
@@ -64,7 +80,10 @@ BROWSER_HEADERS = {
 
 
 def _platform_from_url(url: str) -> str:
-    host = (urlparse(url).hostname or "").lower()
+    parsed = urlparse(url)
+    host = (parsed.hostname or "").lower()
+    if (parsed.path or "").startswith("/demo"):
+        return "DemoMart"
     if "amazon." in host:
         return "Amazon"
     if "flipkart." in host:
@@ -498,6 +517,7 @@ def scrape_product_url(url: str, use_browser: bool = True) -> dict[str, Any]:
     }
 
     url = normalize_product_url(url)
+    fetch_url = _demo_fetch_url(url)
     result["source_url"] = url
     result["platform"] = _platform_from_url(url) if url else "unknown"
 
@@ -505,7 +525,7 @@ def scrape_product_url(url: str, use_browser: bool = True) -> dict[str, Any]:
         result["error"] = "Invalid URL — paste a full product link (http:// or https://)"
         return result
 
-    html, err, status = _fetch_http(url)
+    html, err, status = _fetch_http(fetch_url)
     methods_tried = ["http"]
 
     if html:
@@ -523,7 +543,7 @@ def scrape_product_url(url: str, use_browser: bool = True) -> dict[str, Any]:
 
     # Playwright: skip localhost (DemoMart is already HTML), skip hard blocks
     # (CAPTCHA / 403 / 404) so the UI does not spin 45s and look "broken".
-    host = (urlparse(url).hostname or "").lower()
+    host = (urlparse(fetch_url).hostname or "").lower()
     local = host in {"127.0.0.1", "localhost"}
     blocked = bool(
         result.get("error_code") == "marketplace_blocked"

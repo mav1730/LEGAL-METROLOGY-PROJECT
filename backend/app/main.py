@@ -10,10 +10,18 @@ BACKEND_ROOT = Path(__file__).resolve().parents[1]
 if str(BACKEND_ROOT) not in sys.path:
     sys.path.insert(0, str(BACKEND_ROOT))
 
-from flask import Flask, Response, jsonify, request, send_from_directory
+from flask import Flask, Response, jsonify, send_from_directory
 from flask_cors import CORS
 
-from app.config import HOST, PORT, SECRET_KEY, SYSTEM_DISCLAIMER, ensure_dirs
+from app.config import (
+    EXTRACTOR_MODE,
+    HOST,
+    PORT,
+    SECRET_KEY,
+    SYSTEM_DISCLAIMER,
+    ensure_dirs,
+    public_base,
+)
 from app.demo_store.catalog import PRODUCTS, get_product, list_products
 from app.demo_store.render import render_home, render_product, render_product_list
 from app.routes.api import api_bp
@@ -23,11 +31,8 @@ DEMO_STATIC = Path(__file__).resolve().parent / "demo_store" / "static"
 
 
 def _base_url() -> str:
-    # Prefer request host when available (for copy links)
-    try:
-        return request.url_root.rstrip("/")
-    except RuntimeError:
-        return f"http://{HOST}:{PORT}"
+    """Origin for copied DemoMart links. Loopback when this process is bound to all interfaces."""
+    return public_base()
 
 
 def create_app() -> Flask:
@@ -50,22 +55,40 @@ def create_app() -> Flask:
     except Exception:  # noqa: BLE001
         pass
 
+    frontend_dist = BACKEND_ROOT.parent / "frontend" / "dist"
+
+    def _service_card():
+        base = _base_url()
+        return {
+            "service": "AI Legal Metrology & E-Commerce Compliance Checker",
+            "version": "1.0.0",
+            "api_base": "/api",
+            "health": "/api/health",
+            "demo_store": f"{base}/demo/",
+            "dashboard": f"{base}/",
+            "demo_product_urls": [
+                f"{base}/demo/dp/{slug}" for slug in PRODUCTS.keys()
+            ],
+            "disclaimer": SYSTEM_DISCLAIMER,
+        }
+
+    @app.get("/api/about")
+    def about():
+        return jsonify(_service_card())
+
     @app.get("/")
     def root():
-        base = f"http://{HOST}:{PORT}"
-        return jsonify(
-            {
-                "service": "AI Legal Metrology & E-Commerce Compliance Checker",
-                "version": "1.0.0",
-                "api_base": "/api",
-                "health": "/api/health",
-                "demo_store": f"{base}/demo/",
-                "demo_product_urls": [
-                    f"{base}/demo/dp/{slug}" for slug in PRODUCTS.keys()
-                ],
-                "disclaimer": SYSTEM_DISCLAIMER,
-            }
-        )
+        index = frontend_dist / "index.html"
+        if index.is_file():
+            return send_from_directory(frontend_dist, "index.html")
+        return jsonify(_service_card())
+
+    @app.get("/assets/<path:filename>")
+    def spa_assets(filename: str):
+        assets = frontend_dist / "assets"
+        if not (assets / filename).is_file():
+            return jsonify({"error": "asset not found"}), 404
+        return send_from_directory(assets, filename)
 
     # ------------------------------------------------------------------
     # DemoMart — Amazon-style educational storefront
@@ -133,9 +156,6 @@ def create_app() -> Flask:
         product = get_product(slug)
         return Response(render_product(product, _base_url()), mimetype="text/html")
 
-    # Optional: serve built React app if present
-    frontend_dist = BACKEND_ROOT.parent / "frontend" / "dist"
-
     @app.get("/app")
     @app.get("/app/<path:path>")
     def serve_frontend(path: str = "index.html"):
@@ -162,7 +182,11 @@ app = create_app()
 
 
 if __name__ == "__main__":
+    import os
+
+    debug = os.getenv("FLASK_DEBUG", "0") not in ("0", "false", "False", "")
     print(f"Starting Legal Metrology Compliance Checker on http://{HOST}:{PORT}")
     print(f"DemoMart storefront: http://{HOST}:{PORT}/demo/")
+    print(f"EXTRACTOR_MODE={EXTRACTOR_MODE}  debug={debug}")
     print(SYSTEM_DISCLAIMER)
-    app.run(host=HOST, port=PORT, debug=True)
+    app.run(host=HOST, port=PORT, debug=debug, use_reloader=debug)

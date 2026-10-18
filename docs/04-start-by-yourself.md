@@ -93,7 +93,7 @@ cd C:\Users\admin\Documents\legal-metrology-compliance-checker
 py -3 -m pytest backend/tests -q
 ```
 
-Expect **20 passed**. These tests do **not** need the NER model.
+Expect **25 passed**. These tests do **not** need the NER model. A fresh GitHub clone has no DistilBERT weights, so `ner_available` is false until you train or copy `backend\app\ml\ner_model\model.safetensors`. Regex and DemoMart still run.
 
 ## Stop
 

@@ -22,3 +22,7 @@ backend/app/ml/ner_model/**/checkpoint-*/
 huggingface/
 *.pt
 *.ckpt
+
+# Local dumps and Vite's temporary config bundle
+tree.txt
+frontend/vite.config.js.timestamp-*

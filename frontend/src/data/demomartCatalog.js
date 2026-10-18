@@ -1,4 +1,6 @@
-export const DEMOMART_CATALOG = [
+import { backendOrigin } from "../site";
+
+const RAW_CATALOG = [
   {
     asin: "B0DEMOTWS450",
     slug: "soundwave-pulse-pro-earbuds",
@@ -391,6 +393,14 @@ export const DEMOMART_CATALOG = [
     url: "http://127.0.0.1:5000/demo/dp/crunchyco-spicy-chips-50g"
   }
 ];
+
+const LOCAL = "http://127.0.0.1:5000";
+
+export const DEMOMART_CATALOG = RAW_CATALOG.map((item) => ({
+  ...item,
+  image: item.image.replace(LOCAL, backendOrigin()),
+  url: item.url.replace(LOCAL, backendOrigin()),
+}));
 
 export default DEMOMART_CATALOG;
 

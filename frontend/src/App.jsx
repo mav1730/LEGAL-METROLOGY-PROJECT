@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { api } from "./api/client";
+import { backendOrigin } from "./site";
 import LandingPage from "./pages/LandingPage";
 import ComplianceScanPage from "./pages/ComplianceScanPage";
 import RulesPage from "./pages/RulesPage";
@@ -140,7 +141,7 @@ export default function App() {
           /blocked automated|captcha|bot wall/i.test(res.error);
         setError(
           blocked
-            ? `${res.error} Use a DemoMart link (http://127.0.0.1:5000/demo/) or paste the product details in the Text tab.`
+            ? `${res.error} Use a DemoMart link (${backendOrigin()}/demo/) or paste the product details in the Text tab.`
             : res.error + (res.hint ? ` — ${res.hint}` : "")
         );
       }
@@ -153,7 +154,7 @@ export default function App() {
         /blocked automated|captcha|bot wall/i.test(msg || "");
       setError(
         blocked
-          ? `${msg} Use a DemoMart link (http://127.0.0.1:5000/demo/) or paste product details in the Text tab.`
+          ? `${msg} Use a DemoMart link (${backendOrigin()}/demo/) or paste product details in the Text tab.`
           : msg + (e.data?.hint ? ` — ${e.data.hint}` : "")
       );
       if (e.data?.id) {
@@ -204,7 +205,7 @@ export default function App() {
       if (res?.meta?.id) {
         window.open(`/api/reports/${res.meta.id}`, "_blank");
       }
-      flash("PDF report generated successfully");
+      flash(format === "pdf" ? "PDF report generated" : "JSON report generated");
       return res;
     } catch (e) {
       setError(e.message);
@@ -258,7 +259,7 @@ export default function App() {
             📜 Metrology Rules
           </button>
           <a
-            href="http://127.0.0.1:5000/demo/"
+            href={`${backendOrigin()}/demo/`}
             target="_blank"
             rel="noreferrer"
             className="nav-link-btn external"

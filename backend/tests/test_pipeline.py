@@ -48,6 +48,24 @@ def test_normalize_product_url():
     assert normalize_product_url("http://127.0.0.1:5000/demo/dp/x").startswith("http://")
 
 
+def test_dashboard_href_uses_vite_on_loopback_and_same_origin_elsewhere(client):
+    from app.config import dashboard_href
+
+    app = client.application
+    with app.test_request_context("/", headers={"Host": "127.0.0.1:5000"}):
+        assert dashboard_href() == "http://127.0.0.1:5173/"
+    with app.test_request_context("/", headers={"Host": "demo.example"}):
+        assert dashboard_href() == "/"
+
+
+def test_visitor_demo_url_rewrites_loopback_demomart(client):
+    from app.services.pipeline import _visitor_demo_url
+
+    with client.application.test_request_context("/", headers={"Host": "demo.example"}):
+        out = _visitor_demo_url("http://127.0.0.1:5000/demo/dp/hive-organic-honey-500g")
+    assert out == "http://demo.example/demo/dp/hive-organic-honey-500g"
+
+
 def test_health(client):
     r = client.get("/api/health")
     assert r.status_code == 200
