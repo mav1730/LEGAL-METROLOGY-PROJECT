@@ -19,8 +19,8 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         "brand": "HIVE Naturals",
         "category": "Grocery & Gourmet Foods › Honey",
         "price": 454,
-        "mrp": 454,
-        "mrp_display": "Rs. 454",
+        "mrp": 569,
+        "mrp_display": "Rs. 569",
         "discount_note": "Inclusive of all taxes",
         "rating": 4.5,
         "reviews": 1284,
@@ -35,7 +35,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         ],
         "fields": {
             "product_name": "Product Name: Organic Himalayan Honey 500g",
-            "mrp": "MRP Rs. 454 (Incl. of all taxes)",
+            "mrp": "MRP Rs. 569 (Incl. of all taxes)",
             "net_quantity": "Net Quantity: 500 g",
             "manufacturer": "Manufactured by: Himalayan Bee Farms Pvt Ltd, Solan, HP - 173212",
             "country_of_origin": "Country of Origin: India",
@@ -47,7 +47,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         "description": (
             "HIVE Organic Himalayan Honey is carefully collected and packed to preserve natural enzymes and flavour. "
             "Product Name: Organic Himalayan Honey 500g. "
-            "MRP Rs. 454 (Incl. of all taxes). Net Quantity: 500 g. "
+            "MRP Rs. 569 (Incl. of all taxes). Net Quantity: 500 g. "
             "Manufactured by: Himalayan Bee Farms Pvt Ltd, Solan, HP - 173212. Country of Origin: India. "
             "Mfg Date: 03/2024. Best Before: 03/2026. Customer Care: care@hivenaturals.demo | 1800-000-0000."
         ),
@@ -63,8 +63,8 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         "brand": "PureGold",
         "category": "Grocery & Gourmet Foods › Cooking Oils",
         "price": 195,
-        "mrp": 195,
-        "mrp_display": "Rs. 195",
+        "mrp": 245,
+        "mrp_display": "Rs. 245",
         "discount_note": "Inclusive of all taxes",
         "rating": 4.2,
         "reviews": 856,
@@ -79,7 +79,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         ],
         "fields": {
             "product_name": "Pure Groundnut Oil 1L",
-            "mrp": "MRP Rs. 195 (Incl. of all taxes)",
+            "mrp": "MRP Rs. 245 (Incl. of all taxes)",
             "net_quantity": "Net Quantity: 1 L",
             "manufacturer": "Manufactured by: Pure Oil Mills, Rajkot, Gujarat - 360001",
             "country_of_origin": None,  # Intentionally missing
@@ -90,7 +90,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         },
         "description": (
             "Pure Groundnut Oil for home kitchens. "
-            "MRP Rs. 195. Net Quantity: 1 L. "
+            "MRP Rs. 245. Net Quantity: 1 L. "
             "Manufactured by: Pure Oil Mills, Rajkot, Gujarat - 360001. "
             "Mfg Date: Jan 2025. Best Before: 12 months from manufacture. Customer Care: help@puregold.demo. "
             "Note: This demo listing intentionally omits Country of Origin."
@@ -107,8 +107,8 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         "brand": "CrunchyCo",
         "category": "Grocery & Gourmet Foods › Snacks",
         "price": 129,
-        "mrp": 129,
-        "mrp_display": "Rs. 129",
+        "mrp": 165,
+        "mrp_display": "Rs. 165",
         "discount_note": "Special price",
         "rating": 3.9,
         "reviews": 412,
@@ -145,8 +145,8 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         "brand": "Assam Valley",
         "category": "Grocery & Gourmet Foods › Tea",
         "price": 130,
-        "mrp": 130,
-        "mrp_display": "Rs. 130",
+        "mrp": 165,
+        "mrp_display": "Rs. 165",
         "discount_note": "Inclusive of all taxes",
         "rating": 4.3,
         "reviews": 2201,
@@ -160,7 +160,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         ],
         "fields": {
             "product_name": "Product Name: Classic Tea Bags",
-            "mrp": "MRP Rs. 130 (Incl. of all taxes)",
+            "mrp": "MRP Rs. 165 (Incl. of all taxes)",
             "net_quantity": "Net Quantity: 100 g",
             "manufacturer": "Manufactured by: Assam Tea Co, Dibrugarh, Assam - 786001",
             "country_of_origin": "Country of Origin: India",
@@ -170,7 +170,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         },
         "description": (
             "Product Name: Classic Tea Bags. "
-            "MRP Rs. 130 (Incl. of all taxes). Net Quantity: 100 g. "
+            "MRP Rs. 165 (Incl. of all taxes). Net Quantity: 100 g. "
             "Manufactured by: Assam Tea Co, Dibrugarh, Assam - 786001. Country of Origin: India. "
             "Mfg Date: 01/2025. Best Before: 01/2027. Customer Care: support@assamvalley.demo."
         ),
@@ -186,8 +186,8 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         "brand": "Royal Heritage",
         "category": "Grocery & Gourmet Foods › Rice & Grains",
         "price": 715,
-        "mrp": 715,
-        "mrp_display": "Rs. 715",
+        "mrp": 899,
+        "mrp_display": "Rs. 899",
         "discount_note": "Inclusive of all taxes",
         "rating": 4.7,
         "reviews": 3410,
@@ -202,7 +202,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         ],
         "fields": {
             "product_name": "Product Name: Royal Heritage Premium Basmati Rice",
-            "mrp": "MRP Rs. 715 (Incl. of all taxes)",
+            "mrp": "MRP Rs. 899 (Incl. of all taxes)",
             "net_quantity": "Net Quantity: 5 kg",
             "manufacturer": "Manufactured by: Royal Heritage Agro Foods Pvt Ltd, GT Road, Karnal, Haryana - 132001",
             "country_of_origin": "Country of Origin: India",
@@ -213,7 +213,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         },
         "description": (
             "Royal Heritage Premium Basmati Rice 5kg. "
-            "MRP Rs. 715 (Incl. of all taxes). Net Quantity: 5 kg. "
+            "MRP Rs. 899 (Incl. of all taxes). Net Quantity: 5 kg. "
             "Manufactured by: Royal Heritage Agro Foods Pvt Ltd, GT Road, Karnal, Haryana - 132001. "
             "Country of Origin: India. Mfg Date: 02/2025. Best Before: 02/2027. "
             "Customer Care: care@royalheritage.demo | 1800-444-5555."
@@ -230,8 +230,8 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         "brand": "NutriNut",
         "category": "Grocery & Gourmet Foods › Dry Fruits & Nuts",
         "price": 546,
-        "mrp": 546,
-        "mrp_display": "Rs. 546",
+        "mrp": 689,
+        "mrp_display": "Rs. 689",
         "discount_note": "Inclusive of all taxes",
         "rating": 4.4,
         "reviews": 978,
@@ -245,7 +245,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         ],
         "fields": {
             "product_name": "Product Name: California Raw Almonds",
-            "mrp": "MRP Rs. 546 (Incl. of all taxes)",
+            "mrp": "MRP Rs. 689 (Incl. of all taxes)",
             "net_quantity": "Net Quantity: 500 g",
             "manufacturer": "Packed by: NutriNut Foods Ltd, Plot 42, Turbhe MIDC, Navi Mumbai - 400705",
             "country_of_origin": "Country of Origin: USA",
@@ -255,7 +255,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         },
         "description": (
             "NutriNut California Raw Almonds 500g. "
-            "MRP Rs. 546 (Incl. of all taxes). Net Quantity: 500 g. "
+            "MRP Rs. 689 (Incl. of all taxes). Net Quantity: 500 g. "
             "Packed by: NutriNut Foods Ltd, Navi Mumbai - 400705. Country of Origin: USA. "
             "Mfg Date: 01/2025. Best Before: 09/2025. "
             "Note: Missing customer care details for compliance test."
@@ -272,8 +272,8 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         "brand": "ShudhKhet",
         "category": "Grocery & Gourmet Foods › Flours",
         "price": 572,
-        "mrp": 572,
-        "mrp_display": "Rs. 572",
+        "mrp": 719,
+        "mrp_display": "Rs. 719",
         "discount_note": "Inclusive of all taxes",
         "rating": 4.1,
         "reviews": 1540,
@@ -287,7 +287,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         ],
         "fields": {
             "product_name": "Product Name: ShudhKhet Whole Wheat Atta",
-            "mrp": "MRP Rs. 572 (Incl. of all taxes)",
+            "mrp": "MRP Rs. 719 (Incl. of all taxes)",
             "net_quantity": "Net Quantity: 10 kg",
             "manufacturer": "Manufactured by: ShudhKhet Flour Mills, Sector 3, Sanwer Road, Indore, MP - 452015",
             "country_of_origin": "Country of Origin: India",
@@ -297,7 +297,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         },
         "description": (
             "ShudhKhet Chakki Fresh Whole Wheat Atta 10kg. "
-            "MRP Rs. 572 (Incl. of all taxes). Net Quantity: 10 kg. "
+            "MRP Rs. 719 (Incl. of all taxes). Net Quantity: 10 kg. "
             "Manufactured by: ShudhKhet Flour Mills, Indore, MP - 452015. Country of Origin: India. "
             "Customer Care: help@shudhkhet.demo. "
             "Note: Missing manufacturing and expiry dates for compliance test."
@@ -314,8 +314,8 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         "brand": "SwissDelight",
         "category": "Grocery & Gourmet Foods › Chocolates",
         "price": 273,
-        "mrp": 273,
-        "mrp_display": "Rs. 273",
+        "mrp": 349,
+        "mrp_display": "Rs. 349",
         "discount_note": "Inclusive of all taxes",
         "rating": 4.6,
         "reviews": 1120,
@@ -329,7 +329,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         ],
         "fields": {
             "product_name": "Product Name: 70% Dark Chocolate Bar",
-            "mrp": "MRP Rs. 273 (Incl. of all taxes)",
+            "mrp": "MRP Rs. 349 (Incl. of all taxes)",
             "net_quantity": "Net Quantity: 125 g",
             "manufacturer": "Manufactured by: Chocolatier Suisse SA, Zurich, Switzerland. Imported by: Global Treats India Pvt Ltd, Andheri East, Mumbai, Maharashtra - 400069",
             "country_of_origin": "Country of Origin: Switzerland",
@@ -339,7 +339,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         },
         "description": (
             "SwissDelight 70% Dark Chocolate Bar 125g. "
-            "MRP Rs. 273 (Incl. of all taxes). Net Quantity: 125 g. "
+            "MRP Rs. 349 (Incl. of all taxes). Net Quantity: 125 g. "
             "Manufactured by: Chocolatier Suisse SA, Zurich, Switzerland. "
             "Imported by: Global Treats India Pvt Ltd, Mumbai, Maharashtra - 400069. Country of Origin: Switzerland. "
             "Mfg Date: 11/2024. Best Before: 11/2025. Customer Care: imports@globaltreat.demo | 1800-222-3344."
@@ -356,8 +356,8 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         "brand": "KeshVeda",
         "category": "Beauty & Personal Care › Hair Care",
         "price": 389,
-        "mrp": 389,
-        "mrp_display": "Rs. 389",
+        "mrp": 489,
+        "mrp_display": "Rs. 489",
         "discount_note": "Inclusive of all taxes",
         "rating": 4.5,
         "reviews": 2180,
@@ -371,7 +371,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         ],
         "fields": {
             "product_name": "Product Name: KeshVeda Herbal Shampoo",
-            "mrp": "MRP Rs. 389 (Incl. of all taxes)",
+            "mrp": "MRP Rs. 489 (Incl. of all taxes)",
             "net_quantity": "Net Quantity: 400 ml",
             "manufacturer": "Manufactured by: Veda Care Herbal Labs, Industrial Area, Haridwar, Uttarakhand - 249401",
             "country_of_origin": "Country of Origin: India",
@@ -381,7 +381,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         },
         "description": (
             "KeshVeda Ayurvedic Anti-Dandruff Herbal Shampoo 400ml. "
-            "MRP Rs. 389 (Incl. of all taxes). Net Quantity: 400 ml. "
+            "MRP Rs. 489 (Incl. of all taxes). Net Quantity: 400 ml. "
             "Manufactured by: Veda Care Herbal Labs, Haridwar, Uttarakhand - 249401. Country of Origin: India. "
             "Mfg Date: 01/2025. Best Before: 01/2028. Customer Care: support@keshveda.demo | 1800-888-9999."
         ),
@@ -397,8 +397,8 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         "brand": "Malabar Roast",
         "category": "Grocery & Gourmet Foods › Coffee",
         "price": 208,
-        "mrp": 208,
-        "mrp_display": "Rs. 208",
+        "mrp": 265,
+        "mrp_display": "Rs. 265",
         "discount_note": "Inclusive of all taxes",
         "rating": 4.6,
         "reviews": 1890,
@@ -412,7 +412,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         ],
         "fields": {
             "product_name": "Product Name: Malabar Roast Pure Filter Coffee Powder",
-            "mrp": "MRP Rs. 208 (Incl. of all taxes)",
+            "mrp": "MRP Rs. 265 (Incl. of all taxes)",
             "net_quantity": "Net Quantity: 200 g",
             "manufacturer": "Manufactured by: Malabar Coffee Works, Kalpetta, Wayanad, Kerala - 673121",
             "country_of_origin": "Country of Origin: India",
@@ -423,7 +423,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         },
         "description": (
             "Malabar Roast Pure Filter Coffee Powder 200g. "
-            "MRP Rs. 208 (Incl. of all taxes). Net Quantity: 200 g. "
+            "MRP Rs. 265 (Incl. of all taxes). Net Quantity: 200 g. "
             "Manufactured by: Malabar Coffee Works, Wayanad, Kerala - 673121. Country of Origin: India. "
             "Mfg Date: 02/2025. Best Before: 11/2025. Customer Care: hello@malabarroast.demo | 1800-333-7788."
         ),
@@ -439,8 +439,8 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         "brand": "StridePro",
         "category": "Shoes & Footwear › Men's Running Shoes",
         "price": 3899,
-        "mrp": 3899,
-        "mrp_display": "Rs. 3,899",
+        "mrp": 4899,
+        "mrp_display": "Rs. 4,899",
         "discount_note": "Inclusive of all taxes",
         "rating": 4.6,
         "reviews": 2450,
@@ -454,7 +454,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         ],
         "fields": {
             "product_name": "Product Name: StridePro AeroGlide Men's Running Shoes",
-            "mrp": "MRP Rs. 3899 (Incl. of all taxes)",
+            "mrp": "MRP Rs. 4899 (Incl. of all taxes)",
             "net_quantity": "Net Quantity: 1 Pair",
             "dimensions": "Size: UK 8 (Euro 42 / 26.5 cm)",
             "manufacturer": "Manufactured by: StridePro Footwear Industries Ltd, Sikandra Industrial Area, Agra, UP - 282007",
@@ -464,7 +464,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         },
         "description": (
             "StridePro AeroGlide Men's Running Shoes. "
-            "MRP Rs. 3899 (Incl. of all taxes). Net Quantity: 1 Pair. Size: UK 8. "
+            "MRP Rs. 4899 (Incl. of all taxes). Net Quantity: 1 Pair. Size: UK 8. "
             "Manufactured by: StridePro Footwear Industries Ltd, Agra, UP - 282007. Country of Origin: India. "
             "Month & Year of Mfg: 01/2025. Customer Care: care@stridepro.demo | 1800-222-7890."
         ),
@@ -480,8 +480,8 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         "brand": "UrbanWalk",
         "category": "Shoes & Footwear › Men's Formal Shoes",
         "price": 4549,
-        "mrp": 4549,
-        "mrp_display": "Rs. 4,549",
+        "mrp": 5699,
+        "mrp_display": "Rs. 5,699",
         "discount_note": "Inclusive of all taxes",
         "rating": 4.3,
         "reviews": 780,
@@ -495,7 +495,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         ],
         "fields": {
             "product_name": "Product Name: UrbanWalk Leather Oxford Shoes",
-            "mrp": "MRP Rs. 4549 (Incl. of all taxes)",
+            "mrp": "MRP Rs. 5699 (Incl. of all taxes)",
             "net_quantity": "Net Quantity: 1 Pair",
             "dimensions": "Size: UK 9",
             "manufacturer": "Manufactured by: UrbanWalk Leather Crafts, Jajmau, Kanpur, UP - 208010",
@@ -505,7 +505,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         },
         "description": (
             "UrbanWalk Classic Leather Oxford Shoes. "
-            "MRP Rs. 4549. Net Quantity: 1 Pair. Size: UK 9. "
+            "MRP Rs. 5699. Net Quantity: 1 Pair. Size: UK 9. "
             "Manufactured by: UrbanWalk Leather Crafts, Kanpur, UP - 208010. "
             "Month & Year of Mfg: 12/2024. Customer Care: support@urbanwalk.demo. "
             "Note: Intentionally missing Country of Origin declaration."
@@ -522,8 +522,8 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         "brand": "DenimX",
         "category": "Clothing & Apparel › Men's Jeans",
         "price": 2469,
-        "mrp": 2469,
-        "mrp_display": "Rs. 2,469",
+        "mrp": 3099,
+        "mrp_display": "Rs. 3,099",
         "discount_note": "Inclusive of all taxes",
         "rating": 4.5,
         "reviews": 3120,
@@ -537,7 +537,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         ],
         "fields": {
             "product_name": "Product Name: DenimX Men's Slim Fit Jeans",
-            "mrp": "MRP Rs. 2469 (Incl. of all taxes)",
+            "mrp": "MRP Rs. 3099 (Incl. of all taxes)",
             "net_quantity": "Net Quantity: 1 Piece",
             "dimensions": "Size: 32 (Waist: 81.2 cm, Inseam: 81.2 cm)",
             "manufacturer": "Manufactured by: DenimX Garments India Pvt Ltd, SIDCO Industrial Estate, Tirupur, TN - 641603",
@@ -547,7 +547,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         },
         "description": (
             "DenimX Men's Slim Fit Jeans. "
-            "MRP Rs. 2469 (Incl. of all taxes). Net Quantity: 1 Piece. Size: 32 (81.2 cm). "
+            "MRP Rs. 3099 (Incl. of all taxes). Net Quantity: 1 Piece. Size: 32 (81.2 cm). "
             "Manufactured by: DenimX Garments India Pvt Ltd, Tirupur, TN - 641603. Country of Origin: India. "
             "Month & Year of Packing: 02/2025. Customer Care: help@denimx.demo | 1800-444-1234."
         ),
@@ -563,8 +563,8 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         "brand": "AeroFit",
         "category": "Clothing & Apparel › Men's Polos",
         "price": 1169,
-        "mrp": 1169,
-        "mrp_display": "Rs. 1,169",
+        "mrp": 1499,
+        "mrp_display": "Rs. 1,499",
         "discount_note": "Inclusive of all taxes",
         "rating": 4.4,
         "reviews": 1820,
@@ -578,7 +578,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         ],
         "fields": {
             "product_name": "Product Name: AeroFit Cotton Polo T-Shirt",
-            "mrp": "MRP Rs. 1169 (Incl. of all taxes)",
+            "mrp": "MRP Rs. 1499 (Incl. of all taxes)",
             "net_quantity": "Net Quantity: 1 Piece",
             "dimensions": "Size: L (Chest: 106.7 cm)",
             "manufacturer": "Manufactured by: AeroFit Apparels Ltd, Pandesara GIDC, Surat, Gujarat - 394221",
@@ -588,7 +588,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         },
         "description": (
             "AeroFit Premium Cotton Polo T-Shirt. "
-            "MRP Rs. 1169. Net Quantity: 1 Piece. Size: L. "
+            "MRP Rs. 1499. Net Quantity: 1 Piece. Size: L. "
             "Manufactured by: AeroFit Apparels Ltd, Surat, Gujarat - 394221. Country of Origin: India. "
             "Month & Year of Packing: 01/2025. "
             "Note: Missing customer care details for test."
@@ -605,8 +605,8 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         "brand": "SoundWave",
         "category": "Electronics › Headphones & Earbuds",
         "price": 3249,
-        "mrp": 3249,
-        "mrp_display": "Rs. 3,249",
+        "mrp": 4099,
+        "mrp_display": "Rs. 4,099",
         "discount_note": "Inclusive of all taxes",
         "rating": 4.6,
         "reviews": 5600,
@@ -621,7 +621,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         ],
         "fields": {
             "product_name": "Product Name: SoundWave Pulse Pro TWS Earbuds",
-            "mrp": "MRP Rs. 3249 (Incl. of all taxes)",
+            "mrp": "MRP Rs. 4099 (Incl. of all taxes)",
             "net_quantity": "Net Quantity: 1 Set (Contains: 1 Pair Earbuds, 1 Charging Case, 1 Type-C Cable, 2 Pairs Ear Tips)",
             "manufacturer": "Manufactured by: SoundWave Audio Tech Pvt Ltd, Electronics City Phase 1, Bengaluru, Karnataka - 560100",
             "country_of_origin": "Country of Origin: India",
@@ -630,7 +630,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         },
         "description": (
             "SoundWave Pulse Pro True Wireless Earbuds (TWS). "
-            "MRP Rs. 3249 (Incl. of all taxes). "
+            "MRP Rs. 4099 (Incl. of all taxes). "
             "Net Quantity: 1 Set (Contains: 1 Pair Earbuds, 1 Charging Case, 1 Type-C Cable, 2 Pairs Ear Tips). "
             "Manufactured by: SoundWave Audio Tech Pvt Ltd, Electronics City Phase 1, Bengaluru, Karnataka - 560100. "
             "Country of Origin: India. Month & Year of Mfg: 02/2025. Customer Care: support@soundwave.demo | 1800-999-0011."
@@ -647,8 +647,8 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         "brand": "VoltMax",
         "category": "Electronics › Mobile Accessories",
         "price": 2079,
-        "mrp": 2079,
-        "mrp_display": "Rs. 2,079",
+        "mrp": 2599,
+        "mrp_display": "Rs. 2,599",
         "discount_note": "Inclusive of all taxes",
         "rating": 4.7,
         "reviews": 1940,
@@ -662,7 +662,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         ],
         "fields": {
             "product_name": "Product Name: VoltMax 65W GaN Fast Wall Charger",
-            "mrp": "MRP Rs. 2079 (Incl. of all taxes)",
+            "mrp": "MRP Rs. 2599 (Incl. of all taxes)",
             "net_quantity": "Net Quantity: 1 Unit",
             "manufacturer": "Manufactured by: VoltMax Power Ltd, Que Vo Industrial Zone, Bac Ninh, Vietnam. Imported by: VoltMax India Technologies Pvt Ltd, Cyber City, Gurugram, Haryana - 122002",
             "country_of_origin": "Country of Origin: Vietnam",
@@ -671,7 +671,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         },
         "description": (
             "VoltMax 65W GaN Fast Wall Charger. "
-            "MRP Rs. 2079 (Incl. of all taxes). Net Quantity: 1 Unit. "
+            "MRP Rs. 2599 (Incl. of all taxes). Net Quantity: 1 Unit. "
             "Manufactured by: VoltMax Power Ltd, Bac Ninh, Vietnam. "
             "Imported by: VoltMax India Technologies Pvt Ltd, Cyber City, Gurugram, Haryana - 122002. "
             "Country of Origin: Vietnam. Month & Year of Import: 01/2025. Customer Care: help@voltmax.demo | 1800-333-8888."
@@ -688,8 +688,8 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         "brand": "PulseFit",
         "category": "Electronics › Smartwatches & Wearables",
         "price": 4289,
-        "mrp": 4289,
-        "mrp_display": "Rs. 4,289",
+        "mrp": 5399,
+        "mrp_display": "Rs. 5,399",
         "discount_note": "Inclusive of all taxes",
         "rating": 4.2,
         "reviews": 1150,
@@ -703,7 +703,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         ],
         "fields": {
             "product_name": "Product Name: PulseFit Horizon Smartwatch",
-            "mrp": "MRP Rs. 4289 (Incl. of all taxes)",
+            "mrp": "MRP Rs. 5399 (Incl. of all taxes)",
             "net_quantity": "Net Quantity: 1 Unit",
             "manufacturer": "Manufactured by: PulseFit Electronics Co, Bao'an District, Shenzhen, China. Imported by: PulseFit India Retail Pvt Ltd, Okhla Phase 3, New Delhi - 110020",
             "country_of_origin": "Country of Origin: China",
@@ -712,7 +712,7 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         },
         "description": (
             "PulseFit Horizon Smartwatch. "
-            "MRP Rs. 4289. Net Quantity: 1 Unit. "
+            "MRP Rs. 5399. Net Quantity: 1 Unit. "
             "Manufactured by: PulseFit Electronics Co, Shenzhen, China. "
             "Imported by: PulseFit India Retail Pvt Ltd, New Delhi - 110020. Country of Origin: China. "
             "Customer Care: support@pulsefit.demo. "
@@ -727,6 +727,19 @@ PRODUCTS: dict[str, dict[str, Any]] = {
 def _regex_blind_catalog_entry(doc: dict[str, Any]) -> dict[str, Any]:
     slug = doc["id"]
     values = doc["values"]
+    mrp_lookup = {
+        "golden-grain-atta-5kg": 349,
+        "mediterra-olive-oil-500ml": 819,
+        "vaidya-triphala-churna-100g": 225,
+        "foamchem-active-wash-1kg": 275,
+        "malabar-black-pepper-100g": 120,
+        "kerala-coconut-oil-500ml": 300,
+        "rajasthan-gram-flour-1kg": 110,
+        "goa-cane-jaggery-500g": 90,
+        "punjab-desi-ghee-1l": 699,
+        "darjeeling-leaf-tea-250g": 529,
+    }
+    mrp_val = mrp_lookup.get(slug, round(doc["price"] * 1.25))
     return {
         "asin": doc["asin"],
         "slug": slug,
@@ -734,8 +747,8 @@ def _regex_blind_catalog_entry(doc: dict[str, Any]) -> dict[str, Any]:
         "brand": doc["brand"],
         "category": doc["category"],
         "price": doc["price"],
-        "mrp": doc["price"],
-        "mrp_display": f"Rs. {doc['price']}",
+        "mrp": mrp_val,
+        "mrp_display": f"Rs. {mrp_val:,}",
         "discount_note": "Inclusive of all taxes",
         "rating": 4.1,
         "reviews": 640,
@@ -782,6 +795,7 @@ def public_catalog(base_url: str = "http://127.0.0.1:5000") -> list[dict[str, An
                 "brand": p.get("brand"),
                 "url": f"{base_url.rstrip('/')}/demo/dp/{p['slug']}",
                 "price": p["price"],
+                "mrp": p.get("mrp"),
                 "scenario": p.get("scenario"),
                 "scenario_label": p.get("scenario_label"),
                 "regex_blind": bool(p.get("regex_blind")),
