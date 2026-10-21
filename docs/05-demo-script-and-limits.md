@@ -47,8 +47,13 @@ Point to `backend/app/ml/RESULTS.md`. Lab paraphrases, 78 docs. Hybrid recall be
 | Missing origin-style | http://127.0.0.1:5000/demo/dp/pure-groundnut-oil-1l |
 | NER / regex-blind | http://127.0.0.1:5000/demo/dp/golden-grain-atta-5kg |
 | NER | http://127.0.0.1:5000/demo/dp/malabar-black-pepper-100g |
+| Missing origin | http://127.0.0.1:5000/demo/dp/soya-gold-soybean-oil-500ml |
+| Missing MRP line | http://127.0.0.1:5000/demo/dp/crunchbite-marie-biscuits-200g |
+| Two different MRPs | http://127.0.0.1:5000/demo/dp/sunrise-tomato-ketchup-1kg |
 | GitHub electronics complete | http://127.0.0.1:5000/demo/dp/soundwave-pulse-pro-earbuds |
 | Shop home | http://127.0.0.1:5000/demo/ |
+
+The ketchup page states one MRP. The line labelled “Packaging print sample” states another. A URL scan reads that line as the second source, so MRP stays ambiguous and the result is needs review.
 
 ## Limits (say them before they are used against you)
 

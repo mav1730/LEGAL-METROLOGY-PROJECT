@@ -6,11 +6,11 @@ $Root = $PSScriptRoot
 if (-not $Root) { $Root = Get-Location }
 
 Write-Host ""
-Write-Host "Legal Metrology checker — starting both programs"
+Write-Host "Legal Metrology checker - starting both programs"
 Write-Host "Project: $Root"
 Write-Host ""
 
-# 1) Backend (D: venv if present — that Python has the NER model)
+# 1) Backend (D: venv if present - that Python has the NER model)
 $backendScript = Join-Path $Root "start-backend.ps1"
 Start-Process powershell -ArgumentList @(
     "-NoExit",

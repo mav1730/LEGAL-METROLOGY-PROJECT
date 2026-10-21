@@ -355,6 +355,7 @@ def parse_html_to_product(
         "platform": platform,
         "title": None,
         "page_text": "",
+        "ocr_text": "",
         "image_urls": [],
         "error": None,
         "raw_meta": {"method": method, "html_length": len(html or "")},
@@ -389,6 +390,16 @@ def parse_html_to_product(
             tag.decompose()
         elif tag.name in ("style", "noscript", "svg", "iframe"):
             tag.decompose()
+
+    # DemoMart prints a pack-label sample separately from the listing.
+    # Treat that paragraph as the second source so two MRPs can disagree.
+    ocr_bits: list[str] = []
+    for tag in soup.select(".packaging-ocr-text"):
+        bit = tag.get_text(" ", strip=True)
+        if bit:
+            ocr_bits.append(bit)
+        tag.decompose()
+    result["ocr_text"] = "\n".join(ocr_bits)
 
     chunks: list[str] = []
     chunks.extend(_extract_json_ld(BeautifulSoup(html, "lxml")))

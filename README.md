@@ -117,7 +117,7 @@ py -3 -m pip install pytest
 py -3 -m pytest backend/tests -q
 ```
 
-Expect **25 passed**.
+Expect **33 passed**.
 
 ### First scans
 

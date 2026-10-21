@@ -4,11 +4,12 @@ import { backendOrigin } from "../site";
 
 const CATEGORIES = [
   "All",
+  "Grocery & Gourmet Foods",
+  "Beauty & Personal Care",
   "Electronics",
   "Footwear",
   "Clothing & Apparel",
-  "Grocery & Gourmet Foods",
-  "Beauty & Personal Care",
+  "Home & Kitchen",
 ];
 
 function formatDateTime(isoString) {
@@ -323,7 +324,7 @@ export default function CatalogHistoryPage({
                       <span className="catalog-brand" style={{ fontSize: "0.85rem" }}>Brand: <strong>{item.brand}</strong></span>
                       <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
                         <span style={{ fontSize: "0.88rem", color: "var(--text-muted, #64748b)" }}>Store: <strong style={{ color: "var(--text-main, #0f172a)" }}>₹{item.price?.toLocaleString()}</strong></span>
-                        <span className="catalog-mrp" style={{ fontSize: "0.95rem" }}>MRP: <strong>₹{item.mrp.toLocaleString()}</strong></span>
+                        <span className="catalog-mrp" style={{ fontSize: "0.95rem" }}>MRP: <strong>{item.mrp != null ? `₹${Number(item.mrp).toLocaleString()}` : "Not declared"}</strong></span>
                       </div>
                     </div>
                   </div>

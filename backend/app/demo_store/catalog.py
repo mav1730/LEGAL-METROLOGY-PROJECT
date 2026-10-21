@@ -776,6 +776,13 @@ def _regex_blind_catalog_entry(doc: dict[str, Any]) -> dict[str, Any]:
 for _blind in REGEX_BLIND_DOCS:
     PRODUCTS[_blind["id"]] = _regex_blind_catalog_entry(_blind)
 
+from app.demo_store.expanded_catalog import expanded_products
+
+for _extra in expanded_products():
+    if _extra["slug"] in PRODUCTS:
+        raise RuntimeError(f"Duplicate DemoMart slug: {_extra['slug']}")
+    PRODUCTS[_extra["slug"]] = _extra
+
 
 def list_products() -> list[dict[str, Any]]:
     return list(PRODUCTS.values())

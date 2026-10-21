@@ -145,7 +145,7 @@ def scan_url(
     stored_url = _visitor_demo_url(url or scraped.get("source_url") or "")
     result = run_text_scan(
         page_text=scraped.get("page_text") or "",
-        ocr_text="",
+        ocr_text=scraped.get("ocr_text") or "",
         name=scraped.get("title") or "",
         source_url=stored_url or None,
         platform=scraped.get("platform") or "web",

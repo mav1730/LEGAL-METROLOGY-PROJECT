@@ -72,8 +72,14 @@ def layout(title: str, body: str, active: str = "home") -> str:
 
 
 def render_home(base_url: str = "http://127.0.0.1:5000") -> str:
+    from app.demo_store.expanded_catalog import is_declaration_faulty
+
+    products = list_products()
+    blind = sum(1 for p in products if p.get("regex_blind"))
+    faulty = sum(1 for p in products if is_declaration_faulty(p))
+    clear = len(products) - blind - faulty
     cards = []
-    for p in list_products():
+    for p in products:
         img = p["images"][0]
         cards.append(
             f"""
@@ -102,6 +108,8 @@ def render_home(base_url: str = "http://127.0.0.1:5000") -> str:
           <b>Complete</b> listings use canonical labels (MRP, Manufactured by) — regex finds them.
           <b>Paraphrased (regex-blind)</b> listings use Pack price / Plant operator / COO —
           regex misses; hybrid NER should fill the spans.
+          This shelf has <b>{clear}</b> complete listings, <b>{blind}</b> paraphrased listings,
+          and <b>{faulty}</b> listings with a missing or conflicting declaration.
         </p>
         <div class="scan-hint">
           <b>How to test:</b> Copy a product link below → open
@@ -248,8 +256,8 @@ def render_product(p: dict[str, Any], base_url: str = "http://127.0.0.1:5000") -
     ocr_extra = ""
     if p.get("ocr_conflict_note"):
         ocr_extra = (
-            f'<p class="packaging-ocr-text">Packaging print sample: '
-            f'{escape(p["ocr_conflict_note"])} Net Quantity 100 g Made in India</p>'
+            "<p class=\"packaging-ocr-text\">Packaging print sample: "
+            f"{escape(p['ocr_conflict_note'])}</p>"
         )
 
     body = f"""
